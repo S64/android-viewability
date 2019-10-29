@@ -16,7 +16,7 @@ import android.view.Window;
 
 import java.io.Closeable;
 
-public class AppAreaDetector implements Closeable {
+public class AppAreaObserver implements Closeable {
 
     @NonNull
     private final Activity activity;
@@ -26,7 +26,7 @@ public class AppAreaDetector implements Closeable {
 
         @Override
         public void onGlobalLayout() {
-            AppAreaDetector.this.onDraw();
+            AppAreaObserver.this.onDraw();
         }
 
     };
@@ -66,7 +66,7 @@ public class AppAreaDetector implements Closeable {
 
         @Override
         public void onActivityDestroyed(@NonNull Activity activity) {
-            AppAreaDetector.this.close();
+            AppAreaObserver.this.close();
         }
 
     };
@@ -75,7 +75,7 @@ public class AppAreaDetector implements Closeable {
     private DisplaySize lastDisplaySize = null;
 
     @Nullable
-    private WindowSize lastWindowSize = null;
+    private WindowRect lastWindowRect = null;
 
     @Nullable
     private ContentSize lastContentSize = null;
@@ -83,7 +83,7 @@ public class AppAreaDetector implements Closeable {
     @NonNull
     private final IListener listener;
 
-    public AppAreaDetector(
+    public AppAreaObserver(
             @NonNull Activity activity,
             @NonNull IListener listener
     ) {
@@ -95,7 +95,7 @@ public class AppAreaDetector implements Closeable {
                 .registerActivityLifecycleCallbacks(lifecycleCallbacks);
     }
 
-    public AppAreaDetector(
+    public AppAreaObserver(
             @NonNull View view,
             @NonNull IListener listener
     ) {
@@ -120,7 +120,7 @@ public class AppAreaDetector implements Closeable {
 
     private void onDraw() {
         DisplaySize newDisplaySize = getDisplaySize();
-        WindowSize newWindowSize = getWindowSize();
+        WindowRect newWindowRect = getWindowRect();
         ContentSize newContentSize = getContentSize();
 
         try {
@@ -135,14 +135,14 @@ public class AppAreaDetector implements Closeable {
         }
 
         try {
-            if (!Utils.objectsEquals(lastWindowSize, newWindowSize)) {
-                listener.onWindowSizeChanged(
-                        lastWindowSize,
-                        newWindowSize
+            if (!Utils.objectsEquals(lastWindowRect, newWindowRect)) {
+                listener.onWindowRectChanged(
+                        lastWindowRect,
+                        newWindowRect
                 );
             }
         } finally {
-            lastWindowSize = newWindowSize;
+            lastWindowRect = newWindowRect;
         }
 
         try {
@@ -157,7 +157,7 @@ public class AppAreaDetector implements Closeable {
         }
     }
 
-    @Nullable
+    @NonNull
     public DisplaySize getDisplaySize() {
         final DisplayMetrics metrics = new DisplayMetrics();
         Display display = getCurrentDisplay();
@@ -175,10 +175,10 @@ public class AppAreaDetector implements Closeable {
     }
 
     @NonNull
-    public WindowSize getWindowSize() {
-        Rect decorWindowSize = new Rect();
-        getDecorView().getWindowVisibleDisplayFrame(decorWindowSize);
-        return new WindowSize(decorWindowSize);
+    public WindowRect getWindowRect() {
+        Rect decorWindowRect = new Rect();
+        getDecorView().getWindowVisibleDisplayFrame(decorWindowRect);
+        return new WindowRect(decorWindowRect);
     }
 
     @NonNull
@@ -206,9 +206,9 @@ public class AppAreaDetector implements Closeable {
                 @NonNull DisplaySize newDisplaySize
         );
 
-        void onWindowSizeChanged(
-                @Nullable WindowSize oldWindowSize,
-                @NonNull WindowSize newWindowSize
+        void onWindowRectChanged(
+                @Nullable WindowRect oldWindowRect,
+                @NonNull WindowRect newWindowRect
         );
 
         void onContentSizeChanged(

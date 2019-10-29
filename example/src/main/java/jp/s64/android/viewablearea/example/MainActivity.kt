@@ -8,7 +8,7 @@ import jp.s64.android.viewablearea.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var appAreaDetector: AppAreaDetector
+    private lateinit var appAreaObserver: AppAreaObserver
     private lateinit var viewPositionObserver: ViewPositionObserver
 
     private val displaySize by lazy { findViewById<TextView>(R.id.displaySize) }
@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     private val targetView by lazy { findViewById<View>(R.id.targetView) }
 
-    private val appAreaDetectorListener = object : AppAreaDetector.IListener {
+    private val appAreaDetectorListener = object : AppAreaObserver.IListener {
 
         override fun onContentSizeChanged(
             lastContentSize: ContentSize?,
@@ -34,11 +34,11 @@ class MainActivity : AppCompatActivity() {
             displaySize.text = "${newDisplaySize?.widthInPixels}x${newDisplaySize?.heightInPixels}"
         }
 
-        override fun onWindowSizeChanged(
-            oldWindowSize: WindowSize?,
-            newWindowSize: WindowSize
+        override fun onWindowRectChanged(
+            oldWindowRect: WindowRect?,
+            newWindowRect: WindowRect
         ) {
-            windowSize.text = "${newWindowSize.widthInPixels}x${newWindowSize.heightInPixels} (${newWindowSize.left}-${newWindowSize.top}-${newWindowSize.right}-${newWindowSize.bottom})"
+            windowSize.text = "${newWindowRect.widthInPixels}x${newWindowRect.heightInPixels} (${newWindowRect.left}-${newWindowRect.top}-${newWindowRect.right}-${newWindowRect.bottom})"
         }
 
     }
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
 
-        appAreaDetector = AppAreaDetector(
+        appAreaObserver = AppAreaObserver(
             this@MainActivity,
             appAreaDetectorListener
         )
