@@ -32,16 +32,6 @@ public class AppAreaDetector implements Closeable {
     };
 
     @NonNull
-    private final ViewTreeObserver.OnDrawListener drawListener = new ViewTreeObserver.OnDrawListener() {
-
-        @Override
-        public void onDraw() {
-            AppAreaDetector.this.onDraw();
-        }
-
-    };
-
-    @NonNull
     private final Application.ActivityLifecycleCallbacks lifecycleCallbacks = new Application.ActivityLifecycleCallbacks() {
 
         @Override
@@ -99,8 +89,6 @@ public class AppAreaDetector implements Closeable {
     ) {
         this.activity = activity;
         this.listener = listener;
-        activity.getWindow().getDecorView().getViewTreeObserver()
-                .addOnDrawListener(drawListener);
         activity.getWindow().getDecorView().getViewTreeObserver()
                 .addOnGlobalLayoutListener(layoutListener);
         activity.getApplication()
@@ -205,8 +193,6 @@ public class AppAreaDetector implements Closeable {
 
     @Override
     public void close() {
-        activity.getWindow().getDecorView().getViewTreeObserver()
-                .removeOnDrawListener(drawListener);
         activity.getWindow().getDecorView().getViewTreeObserver()
                 .removeOnGlobalLayoutListener(layoutListener);
         activity.getApplication()
