@@ -95,6 +95,16 @@ public class AppAreaDetector implements Closeable {
                 .registerActivityLifecycleCallbacks(lifecycleCallbacks);
     }
 
+    public AppAreaDetector(
+            @NonNull View view,
+            @NonNull IListener listener
+    ) {
+        this(
+                ViewUtils.requireActivity(view),
+                listener
+        );
+    }
+
     private Window getWindow() {
         return activity.getWindow();
     }
