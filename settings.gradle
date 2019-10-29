@@ -1,0 +1,2 @@
+include ':viewablearea', ':example'
+rootProject.name='android-viewable-area'
