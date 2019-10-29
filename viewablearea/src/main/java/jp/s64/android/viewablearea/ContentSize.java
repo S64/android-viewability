@@ -1,6 +1,6 @@
 package jp.s64.android.viewablearea;
 
-public class ContentSize implements Size {
+public class ContentSize implements ISize {
 
     private final int widthInPixels;
     private final int heightInPixels;

@@ -203,7 +203,7 @@ public class AppAreaDetector implements Closeable {
 
         void onDisplaySizeChanged(
                 @Nullable DisplaySize oldDisplaySize,
-                @Nullable DisplaySize newDisplaySize
+                @NonNull DisplaySize newDisplaySize
         );
 
         void onWindowSizeChanged(

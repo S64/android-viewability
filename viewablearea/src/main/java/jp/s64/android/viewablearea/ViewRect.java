@@ -3,15 +3,15 @@ package jp.s64.android.viewablearea;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 
-public class WindowSize extends BaseRect {
+public class ViewRect extends BaseRect {
 
-    public WindowSize(
+    public ViewRect(
             @NonNull Rect rect
     ) {
         super(rect);
     }
 
-    public WindowSize(
+    public ViewRect(
             int leftInPixels,
             int topInPixels,
             int rightInPixels,

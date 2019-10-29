@@ -13,20 +13,22 @@
 
         <TextView
             android:id="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/targetView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Display:"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/displaySize"
             android:layout_width="0dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/targetView"
             android:layout_height="wrap_content"
-            tools:text="AAAxBBB"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView"
-            app:layout_constraintTop_toTopOf="parent" />
+            tools:text="AAAxBBB" />
 
         <TextView
             android:id="@+id/textView3"
@@ -61,6 +63,33 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView4"
             app:layout_constraintTop_toBottomOf="@+id/windowSize" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+        <TextView
+            android:id="@+id/viewPosition"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="AAAxBBB"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView5"
+            app:layout_constraintTop_toBottomOf="@+id/contentSize" />
+
+        <TextView
+            android:id="@+id/targetView"
+            android:layout_width="128dp"
+            android:layout_height="64dp"
+            android:background="@color/colorAccent"
+            android:text="Target View"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 </LinearLayout>

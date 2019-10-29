@@ -4,18 +4,19 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.TextView
-import jp.s64.android.viewablearea.AppAreaDetector
-import jp.s64.android.viewablearea.ContentSize
-import jp.s64.android.viewablearea.DisplaySize
-import jp.s64.android.viewablearea.WindowSize
+import jp.s64.android.viewablearea.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appAreaDetector: AppAreaDetector
+    private lateinit var viewPositionObserver: ViewPositionObserver
 
     private val displaySize by lazy { findViewById<TextView>(R.id.displaySize) }
     private val windowSize by lazy { findViewById<TextView>(R.id.windowSize) }
     private val contentSize by lazy { findViewById<TextView>(R.id.contentSize) }
+    private val viewPosition by lazy { findViewById<TextView>(R.id.viewPosition) }
+
+    private val targetView by lazy { findViewById<View>(R.id.targetView) }
 
     private val appAreaDetectorListener = object : AppAreaDetector.IListener {
 
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         override fun onDisplaySizeChanged(
             oldDisplaySize: DisplaySize?,
-            newDisplaySize: DisplaySize?
+            newDisplaySize: DisplaySize
         ) {
             displaySize.text = "${newDisplaySize?.widthInPixels}x${newDisplaySize?.heightInPixels}"
         }
@@ -42,6 +43,14 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private val viewPositionObserverListener = object : ViewPositionObserver.IListener {
+
+        override fun onViewRectChanged(oldViewRect: ViewRect?, newViewRect: ViewRect) {
+            viewPosition.text = "${newViewRect.widthInPixels}x${newViewRect.heightInPixels} (${newViewRect.left}-${newViewRect.top}-${newViewRect.right}-${newViewRect.bottom})"
+        }
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
@@ -49,6 +58,11 @@ class MainActivity : AppCompatActivity() {
         appAreaDetector = AppAreaDetector(
             this@MainActivity,
             appAreaDetectorListener
+        )
+
+        viewPositionObserver = ViewPositionObserver(
+            targetView,
+            viewPositionObserverListener
         )
 
         window.decorView.systemUiVisibility = (
