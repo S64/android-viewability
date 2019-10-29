@@ -22,51 +22,21 @@ public class AppAreaDetector implements Closeable {
     private final Activity activity;
 
     @NonNull
-    private final ViewTreeObserver.OnDrawListener drawListener = new ViewTreeObserver.OnDrawListener() {
+    private final ViewTreeObserver.OnGlobalLayoutListener layoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
 
         @Override
-        public void onDraw() {
+        public void onGlobalLayout() {
             AppAreaDetector.this.onDraw();
         }
 
     };
 
     @NonNull
-    private final Application.ActivityLifecycleCallbacks lifecycleCallbacks = new Application.ActivityLifecycleCallbacks() {
+    private final ViewTreeObserver.OnDrawListener drawListener = new ViewTreeObserver.OnDrawListener() {
 
         @Override
-        public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle bundle) {
-            // no-op
-        }
-
-        @Override
-        public void onActivityStarted(@NonNull Activity activity) {
-            // no-op
-        }
-
-        @Override
-        public void onActivityResumed(@NonNull Activity activity) {
-            onDraw();
-        }
-
-        @Override
-        public void onActivityPaused(@NonNull Activity activity) {
-            // no-op
-        }
-
-        @Override
-        public void onActivityStopped(@NonNull Activity activity) {
-            // no-op
-        }
-
-        @Override
-        public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle bundle) {
-            // no-op
-        }
-
-        @Override
-        public void onActivityDestroyed(@NonNull Activity activity) {
-            // no-op
+        public void onDraw() {
+            AppAreaDetector.this.onDraw();
         }
 
     };
@@ -91,8 +61,8 @@ public class AppAreaDetector implements Closeable {
         this.listener = listener;
         activity.getWindow().getDecorView().getViewTreeObserver()
                 .addOnDrawListener(drawListener);
-        activity.getApplication()
-                .registerActivityLifecycleCallbacks(lifecycleCallbacks);
+        activity.getWindow().getDecorView().getViewTreeObserver()
+                .addOnGlobalLayoutListener(layoutListener);
     }
 
     public AppAreaDetector(
@@ -195,8 +165,8 @@ public class AppAreaDetector implements Closeable {
     public void close() {
         activity.getWindow().getDecorView().getViewTreeObserver()
                 .removeOnDrawListener(drawListener);
-        activity.getApplication()
-                .unregisterActivityLifecycleCallbacks(lifecycleCallbacks);
+        activity.getWindow().getDecorView().getViewTreeObserver()
+                .removeOnGlobalLayoutListener(layoutListener);
     }
 
     public interface IListener {
