@@ -183,12 +183,10 @@ public class AppAreaObserver implements Closeable {
 
     @NonNull
     public ContentSize getContentSize() {
-        View root = getDecorView();
-        View contentView = root.findViewById(android.R.id.content);
-        return new ContentSize(
-                contentView.getMeasuredWidth(),
-                contentView.getMeasuredHeight()
-        );
+        Rect rect = new Rect();
+        getDecorView().findViewById(android.R.id.content)
+                .getGlobalVisibleRect(rect);
+        return new ContentSize(rect);
     }
 
     @Override
@@ -212,9 +210,10 @@ public class AppAreaObserver implements Closeable {
         );
 
         void onContentSizeChanged(
-                @Nullable ContentSize lastContentSize,
+                @Nullable ContentSize oldContentSize,
                 @NonNull ContentSize newContentSize
         );
+
     }
 
 }

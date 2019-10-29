@@ -1,44 +1,27 @@
 package jp.s64.android.viewablearea;
 
-public class ContentSize implements ISize {
+import android.graphics.Rect;
+import android.support.annotation.NonNull;
 
-    private final int widthInPixels;
-    private final int heightInPixels;
+public class ContentSize extends BaseRect {
 
     public ContentSize(
-            int widthInPixels,
-            int heightInPixels
+            @NonNull Rect rect
     ) {
-        this.widthInPixels = widthInPixels;
-        this.heightInPixels = heightInPixels;
+        super(rect);
     }
 
-    @Override
-    public int getWidthInPixels() {
-        return widthInPixels;
-    }
-
-    @Override
-    public int getHeightInPixels() {
-        return heightInPixels;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ContentSize that = (ContentSize) o;
-
-        if (widthInPixels != that.widthInPixels) return false;
-        return heightInPixels == that.heightInPixels;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = widthInPixels;
-        result = 31 * result + heightInPixels;
-        return result;
+    public ContentSize(
+            int leftInPixels,
+            int topInPixels,
+            int rightInPixels,
+            int bottomInPixels
+    ) {
+        super(
+                leftInPixels,
+                topInPixels,
+                rightInPixels,
+                bottomInPixels);
     }
 
 }
