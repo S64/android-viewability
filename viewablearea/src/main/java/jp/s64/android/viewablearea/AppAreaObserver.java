@@ -2,31 +2,25 @@ package jp.s64.android.viewablearea;
 
 import android.app.Activity;
 import android.app.Application;
-import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewCompat;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.Window;
 
 import java.io.Closeable;
 
 public class AppAreaObserver implements Closeable {
 
     @NonNull
-    private final Activity activity;
+    private final AppAreaCalculator helper;
 
     @NonNull
     private final ViewTreeObserver.OnGlobalLayoutListener layoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
 
         @Override
         public void onGlobalLayout() {
-            AppAreaObserver.this.onDraw();
+            AppAreaObserver.this.onLayout();
         }
 
     };
@@ -78,7 +72,16 @@ public class AppAreaObserver implements Closeable {
     private WindowRect lastWindowRect = null;
 
     @Nullable
-    private ContentSize lastContentSize = null;
+    private SystemGaps lastSystemGaps = null;
+
+    @Nullable
+    private ContentGaps lastContentGaps = null;
+
+    @Nullable
+    private ContentSize lastContentSizeInDisplay = null;
+
+    @Nullable
+    private ContentSize lastContentSizeInWindow = null;
 
     @NonNull
     private final IListener listener;
@@ -87,12 +90,9 @@ public class AppAreaObserver implements Closeable {
             @NonNull Activity activity,
             @NonNull IListener listener
     ) {
-        this.activity = activity;
+        this.helper = new AppAreaCalculator(activity);
         this.listener = listener;
-        activity.getWindow().getDecorView().getViewTreeObserver()
-                .addOnGlobalLayoutListener(layoutListener);
-        activity.getApplication()
-                .registerActivityLifecycleCallbacks(lifecycleCallbacks);
+        start();
     }
 
     public AppAreaObserver(
@@ -105,23 +105,13 @@ public class AppAreaObserver implements Closeable {
         );
     }
 
-    private Window getWindow() {
-        return activity.getWindow();
-    }
-
-    @NonNull
-    private View getDecorView() {
-        return getWindow().getDecorView();
-    }
-
-    private Display getCurrentDisplay() {
-        return ViewCompat.getDisplay(getDecorView());
-    }
-
-    private void onDraw() {
-        DisplaySize newDisplaySize = getDisplaySize();
-        WindowRect newWindowRect = getWindowRect();
-        ContentSize newContentSize = getContentSize();
+    private void onLayout() {
+        DisplaySize newDisplaySize = helper.getDisplaySize();
+        WindowRect newWindowRect = helper.getWindowRect();
+        SystemGaps newSystemGaps = helper.getSystemGaps();
+        ContentGaps newContentGaps = helper.getContentGaps();
+        ContentSize newContentSizeInDisplay = helper.getContentInDisplay();
+        ContentSize newContentSizeInWindow = helper.getContentInWidow();
 
         try {
             if (!Utils.objectsEquals(lastDisplaySize, newDisplaySize)) {
@@ -146,54 +136,62 @@ public class AppAreaObserver implements Closeable {
         }
 
         try {
-            if (!Utils.objectsEquals(lastContentSize, newContentSize)) {
-                listener.onContentSizeChanged(
-                        lastContentSize,
-                        newContentSize
+            if (!Utils.objectsEquals(lastSystemGaps, newSystemGaps)) {
+                listener.onSystemGapsChanged(
+                        lastSystemGaps,
+                        newSystemGaps
                 );
             }
         } finally {
-            lastContentSize = newContentSize;
+            lastSystemGaps = newSystemGaps;
+        }
+
+        try {
+            if (!Utils.objectsEquals(lastContentGaps, newContentGaps)) {
+                listener.onContentGapsChanged(
+                        lastContentGaps,
+                        newContentGaps
+                );
+            }
+        } finally {
+            lastContentGaps = newContentGaps;
+        }
+
+        try {
+            if (!Utils.objectsEquals(lastContentSizeInDisplay, newContentSizeInDisplay)) {
+                listener.onContentSizeInDisplayChanged(
+                        lastContentSizeInDisplay,
+                        newContentSizeInDisplay
+                );
+            }
+        } finally {
+            lastContentSizeInDisplay = newContentSizeInDisplay;
+        }
+
+        try {
+            if (!Utils.objectsEquals(lastContentSizeInWindow, newContentSizeInWindow)) {
+                listener.onContentSizeInWindowChanged(
+                        lastContentSizeInWindow,
+                        newContentSizeInWindow
+                );
+            }
+        } finally {
+            lastContentSizeInWindow = newContentSizeInWindow;
         }
     }
 
-    @NonNull
-    public DisplaySize getDisplaySize() {
-        final DisplayMetrics metrics = new DisplayMetrics();
-        Display display = getCurrentDisplay();
-        if (display == null) {
-            return null;
-        }
-
-        if (Build.VERSION.SDK_INT >= 17) {
-            display.getRealMetrics(metrics);
-        } else {
-            display.getMetrics(metrics);
-        }
-
-        return new DisplaySize(metrics.widthPixels, metrics.heightPixels);
-    }
-
-    @NonNull
-    public WindowRect getWindowRect() {
-        Rect decorWindowRect = new Rect();
-        getDecorView().getWindowVisibleDisplayFrame(decorWindowRect);
-        return new WindowRect(decorWindowRect);
-    }
-
-    @NonNull
-    public ContentSize getContentSize() {
-        Rect rect = new Rect();
-        getDecorView().findViewById(android.R.id.content)
-                .getGlobalVisibleRect(rect);
-        return new ContentSize(rect);
+    private void start() {
+        helper.getDecorView().getViewTreeObserver()
+                .addOnGlobalLayoutListener(layoutListener);
+        helper.activity.getApplication()
+                .registerActivityLifecycleCallbacks(lifecycleCallbacks);
     }
 
     @Override
     public void close() {
-        activity.getWindow().getDecorView().getViewTreeObserver()
+        helper.getDecorView().getViewTreeObserver()
                 .removeOnGlobalLayoutListener(layoutListener);
-        activity.getApplication()
+        helper.activity.getApplication()
                 .unregisterActivityLifecycleCallbacks(lifecycleCallbacks);
     }
 
@@ -201,7 +199,7 @@ public class AppAreaObserver implements Closeable {
 
         void onDisplaySizeChanged(
                 @Nullable DisplaySize oldDisplaySize,
-                @NonNull DisplaySize newDisplaySize
+                @Nullable DisplaySize newDisplaySize
         );
 
         void onWindowRectChanged(
@@ -209,11 +207,25 @@ public class AppAreaObserver implements Closeable {
                 @NonNull WindowRect newWindowRect
         );
 
-        void onContentSizeChanged(
-                @Nullable ContentSize oldContentSize,
-                @NonNull ContentSize newContentSize
+        void onSystemGapsChanged(
+                @Nullable SystemGaps oldSystemGaps,
+                @Nullable SystemGaps newSystemGaps
         );
 
+        void onContentGapsChanged(
+                @Nullable ContentGaps oldContentGaps,
+                @NonNull ContentGaps newContentGaps
+        );
+
+        void onContentSizeInDisplayChanged(
+                @Nullable ContentSize oldContentSizeInDisplay,
+                @Nullable ContentSize newContentSizeInDisplay
+        );
+
+        void onContentSizeInWindowChanged(
+                @Nullable ContentSize lastContentSizeInWindow,
+                @NonNull ContentSize newContentSizeInWindow
+        );
     }
 
 }

@@ -11,12 +11,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appAreaObserver: AppAreaObserver
     private lateinit var viewPositionObserver: ViewPositionObserver
     private lateinit var appViewabilityObserver: AppViewabilityObserver
+    private lateinit var viewabilityObserver: ViewabilityObserver
 
     private val displaySize by lazy { findViewById<TextView>(R.id.displaySize) }
     private val windowSize by lazy { findViewById<TextView>(R.id.windowSize) }
     private val contentSize by lazy { findViewById<TextView>(R.id.contentSize) }
     private val viewPosition by lazy { findViewById<TextView>(R.id.viewPosition) }
     private val realContentPosition by lazy { findViewById<TextView>(R.id.realContentPosition) }
+    private val realViewPosition by lazy { findViewById<TextView>(R.id.realViewPosition) }
 
     private val targetView by lazy { findViewById<View>(R.id.targetView) }
 
@@ -26,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             oldContentSize: ContentSize?,
             newContentSize: ContentSize
         ) {
-            contentSize.text = "${newContentSize?.widthInPixels}x${newContentSize?.heightInPixels} (${newContentSize.left}-${newContentSize.top}-${newContentSize.right}-${newContentSize.bottom})"
+            contentSize.text = newContentSize.toString()
         }
 
         override fun onDisplaySizeChanged(
@@ -40,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             oldWindowRect: WindowRect?,
             newWindowRect: WindowRect
         ) {
-            windowSize.text = "${newWindowRect.widthInPixels}x${newWindowRect.heightInPixels} (${newWindowRect.left}-${newWindowRect.top}-${newWindowRect.right}-${newWindowRect.bottom})"
+            windowSize.text = newWindowRect.toString()
         }
 
     }
@@ -48,7 +50,7 @@ class MainActivity : AppCompatActivity() {
     private val viewPositionObserverListener = object : ViewPositionObserver.IListener {
 
         override fun onViewRectChanged(oldViewRect: ViewRect?, newViewRect: ViewRect) {
-            viewPosition.text = "${newViewRect.widthInPixels}x${newViewRect.heightInPixels} (${newViewRect.left}-${newViewRect.top}-${newViewRect.right}-${newViewRect.bottom})"
+            viewPosition.text = newViewRect.toString()
         }
 
     }
@@ -59,7 +61,18 @@ class MainActivity : AppCompatActivity() {
             oldViewability: AppViewability?,
             newViewability: AppViewability
         ) {
-            realContentPosition.text = "${newViewability.contentInDisplay.widthInPixels}x${newViewability.contentInDisplay.heightInPixels} (${newViewability.contentInDisplay.left}-${newViewability.contentInDisplay.top}-${newViewability.contentInDisplay.right}-${newViewability.contentInDisplay.bottom})"
+            realContentPosition.text = newViewability.toString()
+        }
+
+    }
+
+    private val viewabilityListener = object : ViewabilityObserver.IListener {
+
+        override fun onViewabilityChanged(
+            oldViewability: Viewability?,
+            newViewability: Viewability
+        ) {
+            realViewPosition.text = newViewability.toString()
         }
 
     }
@@ -81,6 +94,11 @@ class MainActivity : AppCompatActivity() {
         appViewabilityObserver = AppViewabilityObserver(
             this@MainActivity,
             appViewabilityListener
+        )
+
+        viewabilityObserver = ViewabilityObserver(
+            targetView,
+            viewabilityListener
         )
 
         window.decorView.systemUiVisibility = (

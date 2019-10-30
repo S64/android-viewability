@@ -2,7 +2,6 @@ package jp.s64.android.viewablearea;
 
 import android.app.Activity;
 import android.app.Application;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,7 +13,7 @@ import java.io.Closeable;
 public class ViewPositionObserver implements Closeable {
 
     @NonNull
-    private final View view;
+    private final ViewAreaCalculator helper;
 
     @NonNull
     private final ViewTreeObserver.OnGlobalLayoutListener layoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -76,17 +75,13 @@ public class ViewPositionObserver implements Closeable {
             @NonNull View view,
             @NonNull IListener listener
     ) {
-        this.view = view;
+        this.helper = new ViewAreaCalculator(view, null);
         this.listener = listener;
-
-        requireActivity().getWindow().getDecorView().getViewTreeObserver()
-                .addOnGlobalLayoutListener(layoutListener);
-        requireActivity().getApplication()
-                .registerActivityLifecycleCallbacks(lifecycleCallbacks);
+        start();
     }
 
     private void onLayout() {
-        ViewRect newViewRect = getViewRect();
+        ViewRect newViewRect = helper.getViewRectInDisplay();
 
         try {
             if (!Utils.objectsEquals(lastViewRect, newViewRect)) {
@@ -100,23 +95,18 @@ public class ViewPositionObserver implements Closeable {
         }
     }
 
-    @NonNull
-    private ViewRect getViewRect() {
-        Rect rect = new Rect();
-        view.getGlobalVisibleRect(rect);
-        return new ViewRect(rect);
-    }
-
-    @NonNull
-    private Activity requireActivity() {
-        return ViewUtils.requireActivity(view);
+    private void start() {
+        helper.requireActivity().getWindow().getDecorView().getViewTreeObserver()
+                .addOnGlobalLayoutListener(layoutListener);
+        helper.requireActivity().getApplication()
+                .registerActivityLifecycleCallbacks(lifecycleCallbacks);
     }
 
     @Override
     public void close() {
-        requireActivity().getWindow().getDecorView().getViewTreeObserver()
+        helper.requireActivity().getWindow().getDecorView().getViewTreeObserver()
                 .removeOnGlobalLayoutListener(layoutListener);
-        requireActivity().getApplication()
+        helper.requireActivity().getApplication()
                 .unregisterActivityLifecycleCallbacks(lifecycleCallbacks);
     }
 

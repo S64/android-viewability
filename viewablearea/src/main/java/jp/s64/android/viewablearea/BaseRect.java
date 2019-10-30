@@ -85,4 +85,26 @@ abstract class BaseRect implements IRect {
         return result;
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return new StringBuilder()
+                .append(getWidthInPixels())
+                .append('x')
+                .append(getHeightInPixels())
+                .append(" (")
+                .append("left: ")
+                .append(left)
+                .append(", ")
+                .append("top: ")
+                .append(top)
+                .append(", ")
+                .append("right: ")
+                .append(right)
+                .append(", ")
+                .append("bottom: ")
+                .append(bottom)
+                .append(")")
+                .toString();
+    }
 }

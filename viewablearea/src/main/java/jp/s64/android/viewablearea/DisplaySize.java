@@ -1,5 +1,7 @@
 package jp.s64.android.viewablearea;
 
+import android.support.annotation.NonNull;
+
 public class DisplaySize implements ISize {
 
     private final int widthInPixels;
@@ -39,6 +41,16 @@ public class DisplaySize implements ISize {
         int result = widthInPixels;
         result = 31 * result + heightInPixels;
         return result;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return new StringBuilder()
+                .append(widthInPixels)
+                .append("x")
+                .append(heightInPixels)
+                .toString();
     }
 
 }

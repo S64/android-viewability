@@ -21,7 +21,8 @@ public class ViewRect extends BaseRect {
                 leftInPixels,
                 topInPixels,
                 rightInPixels,
-                bottomInPixels);
+                bottomInPixels
+        );
     }
 
 }
