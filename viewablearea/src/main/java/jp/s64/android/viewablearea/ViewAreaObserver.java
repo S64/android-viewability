@@ -152,22 +152,22 @@ public class ViewAreaObserver implements Closeable {
             lastViewRectInDisplay = viewRectInDisplay;
         }
 
-        ViewRect viewRectInContent = contentGaps != null ? calc.getViewRectInContent(contentGaps, viewRectInDisplay) : null;
-        try {
-            if (!ObjectsCompat.equals(lastViewRectInContent, viewRectInContent)) {
-                listener.onViewRectInContentChanged(viewRectInDisplay);
-            }
-        } finally {
-            lastViewRectInContent = viewRectInContent;
-        }
-
         ViewRect viewRectInWindow = systemGaps != null ? calc.getViewRectInWindow(systemGaps, viewRectInDisplay) : null;
         try {
             if (!ObjectsCompat.equals(lastViewRectInWindow, viewRectInWindow)) {
-                listener.onViewRectInWindowChanged(viewRectInDisplay);
+                listener.onViewRectInWindowChanged(viewRectInWindow);
             }
         } finally {
             lastViewRectInWindow = viewRectInWindow;
+        }
+
+        ViewRect viewRectInContent = contentGaps != null ? calc.getViewRectInContent(contentGaps, viewRectInWindow) : null;
+        try {
+            if (!ObjectsCompat.equals(lastViewRectInContent, viewRectInContent)) {
+                listener.onViewRectInContentChanged(viewRectInContent);
+            }
+        } finally {
+            lastViewRectInContent = viewRectInContent;
         }
     }
 
@@ -195,8 +195,8 @@ public class ViewAreaObserver implements Closeable {
 
     public interface IListener {
 
-        void onViewRectInContentChanged(@NonNull ViewRect newValue);
-        void onViewRectInWindowChanged(@NonNull ViewRect newValue);
+        void onViewRectInContentChanged(@Nullable ViewRect newValue);
+        void onViewRectInWindowChanged(@Nullable ViewRect newValue);
         void onViewRectInDisplayChanged(@NonNull ViewRect newValue);
 
     }

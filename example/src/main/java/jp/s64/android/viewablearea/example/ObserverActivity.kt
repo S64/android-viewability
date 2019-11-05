@@ -2,6 +2,7 @@ package jp.s64.android.viewablearea.example
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.widget.TextView
 import jp.s64.android.viewablearea.*
 
@@ -14,7 +15,14 @@ class ObserverActivity : AppCompatActivity() {
     private val contentInDisplay by lazy { findViewById<TextView>(R.id.contentInDisplay) }
     private val contentInWindow by lazy { findViewById<TextView>(R.id.contentInWindow) }
 
+    private val targetView by lazy { findViewById<View>(R.id.targetView) }
+
+    private val targetInContent by lazy { findViewById<TextView>(R.id.targetInContent) }
+    private val targetInWindow by lazy { findViewById<TextView>(R.id.targetInWindow) }
+    private val targetInDisplay by lazy { findViewById<TextView>(R.id.targetInDisplay) }
+
     private lateinit var appAreaObserver: AppAreaObserver
+    private lateinit var viewAreaObserver: ViewAreaObserver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +54,25 @@ class ObserverActivity : AppCompatActivity() {
 
                 override fun onContentInWindowChanged(contentInWindow: ContentSize?) {
                     this@ObserverActivity.contentInWindow.text = contentInWindow.toString()
+                }
+
+            }
+        )
+
+        viewAreaObserver = ViewAreaObserver(
+            targetView,
+            object : ViewAreaObserver.IListener {
+
+                override fun onViewRectInContentChanged(newValue: ViewRect?) {
+                    this@ObserverActivity.targetInContent.text = newValue.toString()
+                }
+
+                override fun onViewRectInWindowChanged(newValue: ViewRect?) {
+                    this@ObserverActivity.targetInWindow.text = newValue.toString()
+                }
+
+                override fun onViewRectInDisplayChanged(newValue: ViewRect) {
+                    this@ObserverActivity.targetInDisplay.text = newValue.toString()
                 }
 
             }
