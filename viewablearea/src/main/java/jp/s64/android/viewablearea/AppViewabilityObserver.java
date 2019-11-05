@@ -8,7 +8,7 @@ import android.view.View;
 public class AppViewabilityObserver {
 
     @NonNull
-    private final AppAreaObserver areaObserver;
+    private final AppAreaObserverBak areaObserver;
 
     @Nullable
     private DisplaySize displaySize = null;
@@ -23,7 +23,7 @@ public class AppViewabilityObserver {
     private AppViewability lastViewability = null;
 
     @NonNull
-    private final AppAreaObserver.IListener areaListener = new AppAreaObserver.IListener() {
+    private final AppAreaObserverBak.IListener areaListener = new AppAreaObserverBak.IListener() {
 
         @Override
         public void onDisplaySizeChanged(
@@ -42,12 +42,34 @@ public class AppViewabilityObserver {
         }
 
         @Override
+        public void onSystemGapsChanged(@Nullable SystemGaps oldSystemGaps, @Nullable SystemGaps newSystemGaps) {
+            // TODO
+        }
+
+        @Override
+        public void onContentGapsChanged(@Nullable ContentGaps oldContentGaps, @NonNull ContentGaps newContentGaps) {
+            // TODO
+        }
+
+        @Override
+        public void onContentSizeInDisplayChanged(@Nullable ContentSize oldContentSizeInDisplay, @Nullable ContentSize newContentSizeInDisplay) {
+            // TODO
+        }
+
+        @Override
+        public void onContentSizeInWindowChanged(@Nullable ContentSize lastContentSizeInWindow, @NonNull ContentSize newContentSizeInWindow) {
+            // TODO
+        }
+
+        /*
+        @Override
         public void onContentSizeChanged(
                 @Nullable ContentSize oldContentSize,
                 @NonNull ContentSize newContentSize
         ) {
             AppViewabilityObserver.this.onContentSizeChanged(oldContentSize, newContentSize);
         }
+        */
 
     };
 
@@ -58,7 +80,7 @@ public class AppViewabilityObserver {
             @NonNull Activity activity,
             @NonNull IListener listener
     ) {
-        areaObserver = new AppAreaObserver(activity, areaListener);
+        areaObserver = new AppAreaObserverBak(activity, areaListener);
         userListener = listener;
     }
 
@@ -66,7 +88,7 @@ public class AppViewabilityObserver {
             @NonNull View view,
             @NonNull IListener listener
     ) {
-        areaObserver = new AppAreaObserver(view, areaListener);
+        areaObserver = new AppAreaObserverBak(view, areaListener);
         userListener = listener;
     }
 

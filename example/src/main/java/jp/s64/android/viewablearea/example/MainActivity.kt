@@ -8,7 +8,7 @@ import jp.s64.android.viewablearea.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var appAreaObserver: AppAreaObserver
+    private lateinit var appAreaObserver: AppAreaObserverBak
     private lateinit var viewPositionObserver: ViewPositionObserver
     private lateinit var appViewabilityObserver: AppViewabilityObserver
     private lateinit var viewabilityObserver: ViewabilityObserver
@@ -22,8 +22,41 @@ class MainActivity : AppCompatActivity() {
 
     private val targetView by lazy { findViewById<View>(R.id.targetView) }
 
-    private val appAreaDetectorListener = object : AppAreaObserver.IListener {
+    private val appAreaDetectorListener = object : AppAreaObserverBak.IListener {
 
+        override fun onDisplaySizeChanged(
+            oldDisplaySize: DisplaySize?,
+            newDisplaySize: DisplaySize?
+        ) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun onSystemGapsChanged(oldSystemGaps: SystemGaps?, newSystemGaps: SystemGaps?) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun onContentGapsChanged(
+            oldContentGaps: ContentGaps?,
+            newContentGaps: ContentGaps
+        ) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun onContentSizeInDisplayChanged(
+            oldContentSizeInDisplay: ContentSize?,
+            newContentSizeInDisplay: ContentSize?
+        ) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun onContentSizeInWindowChanged(
+            lastContentSizeInWindow: ContentSize?,
+            newContentSizeInWindow: ContentSize
+        ) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        /*
         override fun onContentSizeChanged(
             oldContentSize: ContentSize?,
             newContentSize: ContentSize
@@ -37,6 +70,7 @@ class MainActivity : AppCompatActivity() {
         ) {
             displaySize.text = "${newDisplaySize?.widthInPixels}x${newDisplaySize?.heightInPixels}"
         }
+        */
 
         override fun onWindowRectChanged(
             oldWindowRect: WindowRect?,
@@ -81,7 +115,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
 
-        appAreaObserver = AppAreaObserver(
+        appAreaObserver = AppAreaObserverBak(
             this@MainActivity,
             appAreaDetectorListener
         )

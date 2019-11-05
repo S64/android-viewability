@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Display: "/>
+
+            <TextView
+                android:id="@+id/displaySize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="AAAxBBB"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Window: "/>
+
+            <TextView
+                android:id="@+id/windowSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="AAAxBBB"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SystemGaps: "/>
+
+            <TextView
+                android:id="@+id/systemGaps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="AAAxBBB"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ContentGaps: "/>
+
+            <TextView
+                android:id="@+id/contentGaps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="AAAxBBB"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ContentInDisplay: "/>
+
+            <TextView
+                android:id="@+id/contentInDisplay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="AAAxBBB"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ContentInWindow: "/>
+
+            <TextView
+                android:id="@+id/contentInWindow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="AAAxBBB"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

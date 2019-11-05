@@ -42,7 +42,7 @@ class ShotUseActivity : AppCompatActivity() {
             contentGaps.text = appAreaCalculator.contentGaps.toString()
 
             contentInDisplay.text = appAreaCalculator.contentInDisplay.toString()
-            contentInWindow.text = appAreaCalculator.contentInWidow.toString()
+            contentInWindow.text = appAreaCalculator.contentInWindow.toString()
 
             targetInDisplay.text = viewAreaCalculator.viewRectInDisplay.toString()
             targetInWindow.text = viewAreaCalculator.viewRectInWindow.toString()

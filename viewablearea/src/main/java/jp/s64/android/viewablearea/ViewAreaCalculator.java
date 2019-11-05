@@ -15,10 +15,15 @@ public class ViewAreaCalculator {
 
     public ViewAreaCalculator(
             @NonNull View view,
-            @NonNull AppAreaCalculator areaHelper
+            @NonNull AppAreaCalculator areaCalc
     ) {
         this.view = view;
-        this.area = areaHelper;
+        this.area = areaCalc;
+    }
+
+    public ViewAreaCalculator(@NonNull View view) {
+        this.view = view;
+        this.area = new AppAreaCalculator(view);
     }
 
     @Nullable
@@ -26,38 +31,48 @@ public class ViewAreaCalculator {
         ContentGaps content = area.getContentGaps();
         ViewRect viewRect = getViewRectInWindow();
 
-        if (viewRect == null) {
-            return null;
-        }
+        return viewRect != null ? getViewRectInContent(
+                content,
+                viewRect
+        ) : null;
+    }
 
-        int left = viewRect.left - content.getLeftInPixels();
-        int top = viewRect.top - content.getTopInPixels();
+    @NonNull
+    public ViewRect getViewRectInContent(
+            @NonNull ContentGaps contentGaps,
+            @NonNull ViewRect viewRectInWindow
+    ) {
+        int left = viewRectInWindow.left - contentGaps.getLeftInPixels();
+        int top = viewRectInWindow.top - contentGaps.getTopInPixels();
 
         return new ViewRect(
                 left,
                 top,
-                left + viewRect.getWidthInPixels(),
-                top + viewRect.getHeightInPixels()
+                left + viewRectInWindow.getWidthInPixels(),
+                top + viewRectInWindow.getHeightInPixels()
         );
     }
 
     @Nullable
     public ViewRect getViewRectInWindow() {
-        SystemGaps system = area.getSystemGaps();
-        ViewRect viewRect = getViewRectInDisplay();
+        SystemGaps systemGaps = area.getSystemGaps();
+        ViewRect viewRectInDisplay = getViewRectInDisplay();
+        return systemGaps != null ? getViewRectInWindow(systemGaps, viewRectInDisplay) : null;
+    }
 
-        if (system == null) {
-            return null;
-        }
-
-        int left = viewRect.left - system.getLeftInPixels();
-        int top = viewRect.top - system.getTopInPixels();
+    @NonNull
+    public ViewRect getViewRectInWindow(
+            @NonNull SystemGaps systemGaps,
+            @NonNull ViewRect viewRectInDisplay
+    ) {
+        int left = viewRectInDisplay.left - systemGaps.getLeftInPixels();
+        int top = viewRectInDisplay.top - systemGaps.getTopInPixels();
 
         return new ViewRect(
                 left,
                 top,
-                left + viewRect.getWidthInPixels(),
-                top + viewRect.getHeightInPixels()
+                left + viewRectInDisplay.getWidthInPixels(),
+                top + viewRectInDisplay.getHeightInPixels()
         );
     }
 

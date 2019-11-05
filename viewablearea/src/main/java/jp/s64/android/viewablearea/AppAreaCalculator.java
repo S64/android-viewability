@@ -25,27 +25,42 @@ public class AppAreaCalculator {
     }
 
     @NonNull
-    private Window getWindow() {
+    Window getWindow() {
         return activity.getWindow();
     }
 
     @NonNull
     View getDecorView() {
-        return getWindow().getDecorView();
+        return getDecorView(getWindow());
+    }
+
+    @NonNull
+    View getDecorView(@NonNull Window window) {
+        return window.getDecorView();
     }
 
     @Nullable
     private Display getCurrentDisplay() {
-        return ViewCompat.getDisplay(getDecorView());
+        return getCurrentDisplay(getDecorView());
+    }
+
+    @Nullable
+    Display getCurrentDisplay(@NonNull View decorView) {
+        return ViewCompat.getDisplay(decorView);
     }
 
     @Nullable
     public DisplaySize getDisplaySize() {
-        final DisplayMetrics metrics = new DisplayMetrics();
         Display display = getCurrentDisplay();
         if (display == null) {
             return null;
         }
+        return getDisplaySize(display);
+    }
+
+    @NonNull
+    public DisplaySize getDisplaySize(@NonNull Display display) {
+        final DisplayMetrics metrics = new DisplayMetrics();
 
         if (Build.VERSION.SDK_INT >= 17) {
             display.getRealMetrics(metrics);
@@ -57,27 +72,42 @@ public class AppAreaCalculator {
     }
 
     @NonNull
-    public WindowRect getWindowRect() {
+    public WindowRect getWindowRect(@NonNull View decorView) {
         Rect decorWindowRect = new Rect();
-        getDecorView().getWindowVisibleDisplayFrame(decorWindowRect);
+        decorView.getWindowVisibleDisplayFrame(decorWindowRect);
         return new WindowRect(decorWindowRect);
     }
 
     @NonNull
-    private ContentSize getContentSize() {
+    public WindowRect getWindowRect() {
+        return getWindowRect(getDecorView());
+    }
+
+    @NonNull
+    ContentSize getContentSize() {
+        return getContentSize(getContentView());
+    }
+
+    @NonNull
+    ContentSize getContentSize(@NonNull View contentView) {
         int[] loc = new int[2];
-        getContentView().getLocationOnScreen(loc);
+        contentView.getLocationOnScreen(loc);
         return new ContentSize(
                 loc[0],
                 loc[1],
-                loc[0] + getContentView().getMeasuredWidth(),
-                loc[1] + getContentView().getMeasuredHeight()
+                loc[0] + contentView.getMeasuredWidth(),
+                loc[1] + contentView.getMeasuredHeight()
         );
     }
 
     @NonNull
-    private View getContentView() {
-        return getDecorView().findViewById(android.R.id.content);
+    View getContentView(@NonNull View decorView) {
+        return decorView.findViewById(android.R.id.content);
+    }
+
+    @NonNull
+    View getContentView() {
+        return getContentView(getDecorView());
     }
 
     @Nullable
@@ -89,6 +119,11 @@ public class AppAreaCalculator {
             return null;
         }
 
+        return getSystemGaps(display, window);
+    }
+
+    @NonNull
+    public SystemGaps getSystemGaps(@NonNull DisplaySize display, @NonNull WindowRect window) {
         return new SystemGaps(
                 window.left,
                 window.top,
@@ -99,9 +134,11 @@ public class AppAreaCalculator {
 
     @NonNull
     public ContentGaps getContentGaps() {
-        ContentSize content = getContentSize();
-        WindowRect window = getWindowRect();
+        return getContentGaps(getContentSize(), getWindowRect());
+    }
 
+    @NonNull
+    public ContentGaps getContentGaps(@NonNull ContentSize content, @NonNull WindowRect window) {
         return new ContentGaps(
                 content.left - window.left,
                 content.top - window.top,
@@ -120,6 +157,15 @@ public class AppAreaCalculator {
             return null;
         }
 
+        return getContentInDisplay(display, systemGaps, contentGaps);
+    }
+
+    @NonNull
+    public ContentSize getContentInDisplay(
+            @NonNull DisplaySize display,
+            @NonNull SystemGaps systemGaps,
+            @NonNull ContentGaps contentGaps
+    ) {
         return new ContentSize(
                 systemGaps.getLeftInPixels() + contentGaps.getLeftInPixels(),
                 systemGaps.getTopInPixels() + contentGaps.getTopInPixels(),
@@ -129,10 +175,18 @@ public class AppAreaCalculator {
     }
 
     @NonNull
-    public ContentSize getContentInWidow() {
-        View content = getContentView();
-        ContentGaps contentGaps = getContentGaps();
+    public ContentSize getContentInWindow() {
+        return getContentInWindow(
+                getContentView(),
+                getContentGaps()
+        );
+    }
 
+    @NonNull
+    public ContentSize getContentInWindow(
+            @NonNull View content,
+            @NonNull ContentGaps contentGaps
+    ) {
         return new ContentSize(
                 contentGaps.getLeftInPixels(),
                 contentGaps.getTopInPixels(),
