@@ -25,22 +25,54 @@ public class RealViewRect {
 
     public int getViewableLeft() {
         int contentLeft = contentViewability.getViewableLeftInDisplay();
-        return viewInDisplay.left < contentLeft ? contentLeft : viewInDisplay.left;
+        int contentRight = contentViewability.getViewableRightInDisplay();
+
+        if (viewInDisplay.left < contentLeft) {
+            return contentLeft;
+        } else if (viewInDisplay.left > contentRight) {
+            return contentRight;
+        }
+
+        return viewInDisplay.left;
     }
 
     public int getViewableTop() {
         int contentTop = contentViewability.getViewableTopInDisplay();
-        return viewInDisplay.top < contentTop ? contentTop : viewInDisplay.top;
+        int contentBottom = contentViewability.getViewableBottomInDisplay();
+
+        if (viewInDisplay.top < contentTop) {
+            return contentTop;
+        } else if (viewInDisplay.top > contentBottom) {
+            return contentBottom;
+        }
+
+        return viewInDisplay.top;
     }
 
     public int getViewableRight() {
+        int contentLeft = contentViewability.getViewableLeftInDisplay();
         int contentRight = contentViewability.getViewableRightInDisplay();
-        return viewInDisplay.right > contentRight ? contentRight : viewInDisplay.right;
+
+        if (viewInDisplay.right > contentRight) {
+            return contentRight;
+        } else if (viewInDisplay.right < contentLeft) {
+            return contentLeft;
+        }
+
+        return viewInDisplay.right;
     }
 
     public int getViewableBottom() {
+        int contentTop = contentViewability.getViewableTopInDisplay();
         int contentBottom = contentViewability.getViewableBottomInDisplay();
-        return viewInDisplay.bottom > contentBottom ? contentBottom : viewInDisplay.bottom;
+
+        if (viewInDisplay.bottom > contentBottom) {
+            return contentBottom;
+        } else if (viewInDisplay.bottom < contentTop) {
+            return contentTop;
+        }
+
+        return viewInDisplay.bottom;
     }
 
     public int getViewableWidth() {
