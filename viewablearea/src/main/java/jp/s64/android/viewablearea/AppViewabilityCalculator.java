@@ -9,77 +9,88 @@ import android.view.Window;
 public class AppViewabilityCalculator {
 
     @NonNull
-    private final AppAreaCalculator appCalc;
+    final AppAreaCalculator areaCalculator;
 
     public AppViewabilityCalculator(
-            @NonNull View view
+            @NonNull AppAreaCalculator appAreaCalculator
     ) {
-        this(
-                view,
-                null
-        );
+        this.areaCalculator = appAreaCalculator;
     }
 
-    public AppViewabilityCalculator(
-            @NonNull View view,
-            @Nullable AppAreaCalculator appCalculator
-    ) {
-        if (appCalculator != null) {
-            this.appCalc = appCalculator;
-        } else {
-            this.appCalc = new AppAreaCalculator(view);
-        }
-    }
+    // region AppViewabilityCalculator#getWindowViewability
 
     @Nullable
     public WindowViewability getWindowViewability() {
-        return getWindowViewability(appCalc.getWindow());
+        return getWindowViewability(areaCalculator.getWindow());
     }
 
     @Nullable
     public WindowViewability getWindowViewability(@NonNull Window window) {
-        return getWindowViewability(
-                appCalc.getDecorView(window)
-        );
-    }
+        View decorView = areaCalculator.getDecorView(window);
+        Display display = areaCalculator.getCurrentDisplay(decorView);
 
-    @Nullable
-    public WindowViewability getWindowViewability(@NonNull View decorView) {
-        Display display = appCalc.getCurrentDisplay(decorView);
-
-        if (display == null){
+        if (display == null) {
             return null;
         }
 
         return getWindowViewability(
-                display,
-                appCalc.getWindowRect(decorView)
-        );
-    }
-
-    @NonNull
-    public WindowViewability getWindowViewability(@NonNull Display display, @NonNull WindowRect window) {
-        return getWindowViewability(
-                appCalc.getDisplaySize(display),
-                window
+                decorView,
+                display
         );
     }
 
     @NonNull
     public WindowViewability getWindowViewability(
-            @NonNull DisplaySize displaySize,
-            @NonNull WindowRect window
+            @NonNull View decorView,
+            @NonNull Display display
     ) {
-        return new WindowViewability(window, displaySize);
+        return getWindowViewability(
+                areaCalculator.getWindowRect(decorView),
+                areaCalculator.getDisplaySize(display)
+        );
     }
 
+    @NonNull
+    public WindowViewability getWindowViewability(
+            @NonNull WindowRect windowRect,
+            @NonNull DisplaySize displaySize
+    ) {
+        return new WindowViewability(
+                windowRect,
+                displaySize
+        );
+    }
 
+    // endregion
+
+    // region AppViewabilityCalculator#getContentViewability
+
+    @Nullable
+    public ContentViewability getContentViewability() {
+        ContentSize contentInDisplay = areaCalculator.getContentInDisplay();
+        DisplaySize displaySize = areaCalculator.getDisplaySize();
+
+        if (contentInDisplay == null || displaySize == null) {
+            return null;
+        }
+
+        return getContentViewability(
+                contentInDisplay,
+                displaySize
+        );
+    }
+
+    @NonNull
     public ContentViewability getContentViewability(
-            @NonNull WindowViewability windowViewability,
-            @NonNull ContentGaps contentGaps,
-            @NonNull ContentSize contentInWindow
+            @NonNull ContentSize contentInDisplay,
+            @NonNull DisplaySize displaySize
     ) {
-        return new ContentViewability(windowViewability, contentGaps, contentInWindow);
+        return new ContentViewability(
+                contentInDisplay,
+                displaySize
+        );
     }
+
+    // endregion
 
 }

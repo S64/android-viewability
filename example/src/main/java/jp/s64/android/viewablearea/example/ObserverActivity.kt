@@ -21,12 +21,19 @@ class ObserverActivity : AppCompatActivity() {
     private val targetInWindow by lazy { findViewById<TextView>(R.id.targetInWindow) }
     private val targetInDisplay by lazy { findViewById<TextView>(R.id.targetInDisplay) }
 
+    private val windowViewability by lazy { findViewById<TextView>(R.id.windowViewability) }
+    private val contentViewability by lazy { findViewById<TextView>(R.id.contentViewability) }
+
     private lateinit var appAreaObserver: AppAreaObserver
     private lateinit var viewAreaObserver: ViewAreaObserver
+
+    private lateinit var appViewabilityObserver: AppViewabilityObserver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.observer_activity)
+
+        val appAreaCalculator = AppAreaCalculator(this)
 
         appAreaObserver = AppAreaObserver(
             this,
@@ -73,6 +80,21 @@ class ObserverActivity : AppCompatActivity() {
 
                 override fun onViewRectInDisplayChanged(newValue: ViewRect) {
                     this@ObserverActivity.targetInDisplay.text = newValue.toString()
+                }
+
+            }
+        )
+
+        appViewabilityObserver = AppViewabilityObserver(
+            this,
+            object : AppViewabilityObserver.IListener {
+
+                override fun onWindowViewabilityChanged(newValue: WindowViewability?) {
+                    this@ObserverActivity.windowViewability.text = newValue.toString()
+                }
+
+                override fun onContentViewabilityChanged(newValue: ContentViewability?) {
+                    this@ObserverActivity.contentViewability.text = newValue.toString()
                 }
 
             }

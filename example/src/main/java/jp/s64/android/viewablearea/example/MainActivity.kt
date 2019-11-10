@@ -20,6 +20,9 @@ class MainActivity : AppCompatActivity() {
     private val realContentPosition by lazy { findViewById<TextView>(R.id.realContentPosition) }
     private val realViewPosition by lazy { findViewById<TextView>(R.id.realViewPosition) }
 
+    private val windowViewability by lazy { findViewById<TextView>(R.id.windowViewability) }
+    private val contentViewability by lazy { findViewById<TextView>(R.id.contentViewability) }
+
     private val targetView by lazy { findViewById<View>(R.id.targetView) }
 
     private val appAreaDetectorListener = object : AppAreaObserverBak.IListener {
@@ -89,6 +92,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    /*
     private val appViewabilityListener = object : AppViewabilityObserver.IListener {
 
         override fun onAppViewabilityChanged(
@@ -99,6 +103,7 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+    */
 
     private val viewabilityListener = object : ViewabilityObserverBak.IListener {
 
@@ -125,10 +130,12 @@ class MainActivity : AppCompatActivity() {
             viewPositionObserverListener
         )
 
+        /*
         appViewabilityObserver = AppViewabilityObserver(
             this@MainActivity,
             appViewabilityListener
         )
+        */
 
         viewabilityObserver = ViewabilityObserverBak(
             targetView,

@@ -79,7 +79,30 @@ public class AppAreaObserver implements Closeable {
             @NonNull IListener listener,
             @Nullable IEventListener events
     ) {
-        this.calc = new AppAreaCalculator(activity);
+        this(
+                new AppAreaCalculator(activity),
+                listener,
+                events
+        );
+    }
+
+    public AppAreaObserver(
+            @NonNull AppAreaCalculator appAreaCalculator,
+            @NonNull IListener listener
+    ) {
+        this(
+                appAreaCalculator,
+                listener,
+                null
+        );
+    }
+
+    public AppAreaObserver(
+            @NonNull AppAreaCalculator appAreaCalculator,
+            @NonNull IListener listener,
+            @Nullable IEventListener events
+    ) {
+        this.calc = appAreaCalculator;
         this.listener = listener;
         this.events = events;
         start();

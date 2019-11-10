@@ -75,9 +75,39 @@ public class ContentViewability {
     }
 
     public float getViewabilityInDisplay() {
-        int actual = contentInDisplay.getWidthInPixels() * contentInDisplay.getHeightInPixels();
-        int viewable = getViewableWidthInDisplay() * getViewableHeightInDisplay();
+        float actual = contentInDisplay.getWidthInPixels() * contentInDisplay.getHeightInPixels();
+        float viewable = getViewableWidthInDisplay() * getViewableHeightInDisplay();
         return viewable / actual;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return new StringBuilder()
+                .append(getViewabilityInDisplay())
+                .append(" (")
+                .append("left: ")
+                .append(getViewableLeftInDisplay())
+                .append(" [")
+                .append(getInvisibleWidthLeftInDisplay())
+                .append("],")
+                .append("top: ")
+                .append(getViewableTopInDisplay())
+                .append(" [")
+                .append(getInvisibleWidthTopInDisplay())
+                .append("],")
+                .append("right: ")
+                .append(getViewableRightInDisplay())
+                .append(" [")
+                .append(getInvisibleWidthRightInDisplay())
+                .append("],")
+                .append("bottom: ")
+                .append(getViewableBottomInDisplay())
+                .append(" [")
+                .append(getInvisibleWidthBottomInDisplay())
+                .append("]")
+                .append(")")
+                .toString();
     }
 
 }

@@ -76,9 +76,39 @@ public class WindowViewability {
     }
 
     public float getViewability() {
-        int actual = actualWindow.getWidthInPixels() * actualWindow.getHeightInPixels();
-        int viewable = getViewableWidth() * getViewableHeight();
+        float actual = actualWindow.getWidthInPixels() * actualWindow.getHeightInPixels();
+        float viewable = getViewableWidth() * getViewableHeight();
         return viewable / actual;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return new StringBuilder()
+                .append(getViewability())
+                .append(" (")
+                .append("left: ")
+                .append(getViewableLeft())
+                .append(" [")
+                .append(getInvisibleWidthLeft())
+                .append("],")
+                .append("top: ")
+                .append(getViewableTop())
+                .append(" [")
+                .append(getInvisibleWidthTop())
+                .append("],")
+                .append("right: ")
+                .append(getViewableRight())
+                .append(" [")
+                .append(getInvisibleWidthRight())
+                .append("],")
+                .append("bottom: ")
+                .append(getViewableBottom())
+                .append(" [")
+                .append(getInvisibleWidthBottom())
+                .append("]")
+                .append(")")
+                .toString();
     }
 
 }

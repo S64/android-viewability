@@ -1,161 +1,218 @@
 package jp.s64.android.viewablearea;
 
 import android.app.Activity;
+import android.app.Application;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-public class AppViewabilityObserver {
+import java.io.Closeable;
+
+public class AppViewabilityObserver implements Closeable {
 
     @NonNull
-    private final AppAreaObserverBak areaObserver;
-
-    @Nullable
-    private DisplaySize displaySize = null;
-
-    @Nullable
-    private WindowRect windowRect = null;
-
-    @Nullable
-    private ContentSize contentSize = null;
-
-    @Nullable
-    private AppViewability lastViewability = null;
+    private final AppViewabilityCalculator viewabilityCalc;
 
     @NonNull
-    private final AppAreaObserverBak.IListener areaListener = new AppAreaObserverBak.IListener() {
+    private final AppAreaObserver areaObserver;
+
+    @NonNull
+    private final AppAreaObserver.IEventListener appAreaEvents = new AppAreaObserver.IEventListener() {
 
         @Override
-        public void onDisplaySizeChanged(
-                @Nullable DisplaySize oldDisplaySize,
-                @NonNull DisplaySize newDisplaySize
-        ) {
-            AppViewabilityObserver.this.onDisplaySizeChanged(oldDisplaySize, newDisplaySize);
+        public void onChangesCompleted() {
+            AppViewabilityObserver.this.onLayout();
         }
-
-        @Override
-        public void onWindowRectChanged(
-                @Nullable WindowRect oldWindowRect,
-                @NonNull WindowRect newWindowRect
-        ) {
-            AppViewabilityObserver.this.onWindowRectChanged(oldWindowRect, newWindowRect);
-        }
-
-        @Override
-        public void onSystemGapsChanged(@Nullable SystemGaps oldSystemGaps, @Nullable SystemGaps newSystemGaps) {
-            // TODO
-        }
-
-        @Override
-        public void onContentGapsChanged(@Nullable ContentGaps oldContentGaps, @NonNull ContentGaps newContentGaps) {
-            // TODO
-        }
-
-        @Override
-        public void onContentSizeInDisplayChanged(@Nullable ContentSize oldContentSizeInDisplay, @Nullable ContentSize newContentSizeInDisplay) {
-            // TODO
-        }
-
-        @Override
-        public void onContentSizeInWindowChanged(@Nullable ContentSize lastContentSizeInWindow, @NonNull ContentSize newContentSizeInWindow) {
-            // TODO
-        }
-
-        /*
-        @Override
-        public void onContentSizeChanged(
-                @Nullable ContentSize oldContentSize,
-                @NonNull ContentSize newContentSize
-        ) {
-            AppViewabilityObserver.this.onContentSizeChanged(oldContentSize, newContentSize);
-        }
-        */
 
     };
 
     @NonNull
-    private IListener userListener;
+    private final AppAreaObserver.IListener appAreaListener = new AppAreaObserver.IListener() {
 
-    public AppViewabilityObserver(
-            @NonNull Activity activity,
-            @NonNull IListener listener
-    ) {
-        areaObserver = new AppAreaObserverBak(activity, areaListener);
-        userListener = listener;
-    }
-
-    public AppViewabilityObserver(
-            @NonNull View view,
-            @NonNull IListener listener
-    ) {
-        areaObserver = new AppAreaObserverBak(view, areaListener);
-        userListener = listener;
-    }
-
-    private void onDisplaySizeChanged(
-            @Nullable DisplaySize oldDisplaySize,
-            @NonNull DisplaySize newDisplaySize
-    )
-    {
-        this.displaySize = newDisplaySize;
-        reconfigured();
-    }
-
-    private void onWindowRectChanged(
-            @Nullable WindowRect oldWindowRect,
-            @NonNull WindowRect newWindowRect
-    )
-    {
-        this.windowRect = newWindowRect;
-        reconfigured();
-    }
-
-    private void onContentSizeChanged(
-            @Nullable ContentSize lastContentSize,
-            @NonNull ContentSize newContentSize
-    )
-    {
-        this.contentSize = newContentSize;
-        reconfigured();
-    }
-
-    private void reconfigured() {
-        if (displaySize == null || windowRect == null || contentSize == null) {
-            return;
+        @Override
+        public void onDisplaySizeChanged(@Nullable DisplaySize newValue) {
+            AppViewabilityObserver.this.displaySize = newValue;
         }
 
-        int realContentAreaLeftInDisplay = windowRect.left + contentSize.left;
-        int realContentAreaTopInDisplay = windowRect.top + contentSize.top;
-        int realContentAreaRightInDisplay = realContentAreaLeftInDisplay + contentSize.getWidthInPixels();
-        int realContentAreaBottomInDisplay = realContentAreaTopInDisplay + contentSize.getHeightInPixels();
+        @Override
+        public void onWindowRectChanged(@NonNull WindowRect windowRect) {
+            AppViewabilityObserver.this.windowRect = windowRect;
+        }
 
-        AppViewability newViewability = new AppViewability(
-                new ContentSize(
-                        realContentAreaLeftInDisplay,
-                        realContentAreaTopInDisplay,
-                        realContentAreaRightInDisplay,
-                        realContentAreaBottomInDisplay
-                )
+        @Override
+        public void onSystemGapsChanged(@Nullable SystemGaps systemGaps) {
+            // no-op
+        }
+
+        @Override
+        public void onContentGapsChanged(@NonNull ContentGaps contentGaps) {
+            // no-op
+        }
+
+        @Override
+        public void onContentInDisplayChanged(@Nullable ContentSize contentInDisplay) {
+            AppViewabilityObserver.this.contentInDisplay = contentInDisplay;
+        }
+
+        @Override
+        public void onContentInWindowChanged(@Nullable ContentSize contentInWindow) {
+            // no-op
+        }
+
+    };
+
+    @NonNull
+    private final Application.ActivityLifecycleCallbacks lifecycleCallbacks = new Application.ActivityLifecycleCallbacks() {
+
+        @Override
+        public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle bundle) {
+            // no-op
+        }
+
+        @Override
+        public void onActivityStarted(@NonNull Activity activity) {
+            // no-op
+        }
+
+        @Override
+        public void onActivityResumed(@NonNull Activity activity) {
+            // no-op
+        }
+
+        @Override
+        public void onActivityPaused(@NonNull Activity activity) {
+            // no-op
+        }
+
+        @Override
+        public void onActivityStopped(@NonNull Activity activity) {
+            // no-op
+        }
+
+        @Override
+        public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle bundle) {
+            // no-op
+        }
+
+        @Override
+        public void onActivityDestroyed(@NonNull Activity activity) {
+            AppViewabilityObserver.this.close(activity);
+        }
+
+    };
+
+    @NonNull
+    private final IListener listener;
+
+    public AppViewabilityObserver(@NonNull Activity activity, @NonNull IListener listener) {
+        this(
+                new AppViewabilityCalculator(
+                        new AppAreaCalculator(activity)
+                ),
+                listener
         );
+    }
 
-        try {
-            if (!Utils.objectsEquals(lastViewability, newViewability)) {
-                userListener.onAppViewabilityChanged(
-                        lastViewability,
-                        newViewability
-                );
+    public AppViewabilityObserver(@NonNull View view, @NonNull IListener listener) {
+        this(
+                new AppViewabilityCalculator(
+                        new AppAreaCalculator(view)
+                ),
+                listener
+        );
+    }
+
+    @Nullable
+    private WindowRect windowRect;
+
+    @Nullable
+    private DisplaySize displaySize;
+
+    @Nullable
+    private ContentSize contentInDisplay;
+
+    public AppViewabilityObserver(
+            @NonNull AppViewabilityCalculator appViewabilityCalculator,
+            @NonNull IListener listener
+    ) {
+        this.viewabilityCalc = appViewabilityCalculator;
+        this.areaObserver = new AppAreaObserver(
+                appViewabilityCalculator.areaCalculator,
+                appAreaListener,
+                appAreaEvents
+        );
+        this.listener = listener;
+    }
+
+    @Nullable
+    private WindowViewability lastWindowViewability;
+
+    @Nullable
+    private ContentViewability lastContentViewability;
+
+    private void onLayout() {
+        {
+            WindowViewability newWindowViewability;
+
+            if (windowRect != null && displaySize != null) {
+                newWindowViewability = viewabilityCalc.getWindowViewability(windowRect, displaySize);
+            } else {
+                newWindowViewability = null;
             }
-        } finally {
-            lastViewability = newViewability;
+
+            try {
+                if (!Utils.objectsEquals(lastWindowViewability, newWindowViewability)) {
+                    listener.onWindowViewabilityChanged(
+                            newWindowViewability
+                    );
+                }
+            } finally {
+                lastWindowViewability = newWindowViewability;
+            }
+        }
+        {
+            ContentViewability newContentViewability;
+
+            if (contentInDisplay != null && displaySize != null) {
+                newContentViewability = viewabilityCalc.getContentViewability(contentInDisplay, displaySize);
+            } else {
+                newContentViewability = null;
+            }
+
+            try {
+                if (!Utils.objectsEquals(lastContentViewability, newContentViewability)) {
+                    listener.onContentViewabilityChanged(
+                            newContentViewability
+                    );
+                }
+            } finally {
+                lastContentViewability = newContentViewability;
+            }
+        }
+    }
+
+    private void start() {
+        viewabilityCalc.areaCalculator.activity.getApplication()
+                .registerActivityLifecycleCallbacks(lifecycleCallbacks);
+    }
+
+    @Override
+    public void close() {
+        viewabilityCalc.areaCalculator.activity.getApplication()
+                .unregisterActivityLifecycleCallbacks(lifecycleCallbacks);
+    }
+
+    private void close(@NonNull Activity activity) {
+        if (activity == viewabilityCalc.areaCalculator.activity) {
+            close();
         }
     }
 
     public interface IListener {
 
-        void onAppViewabilityChanged(
-                @Nullable AppViewability oldViewability,
-                @NonNull AppViewability newViewability
-        );
+        void onWindowViewabilityChanged(@Nullable WindowViewability newValue);
+        void onContentViewabilityChanged(@Nullable ContentViewability newValue);
 
     }
 

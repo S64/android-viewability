@@ -22,6 +22,7 @@ public class ViewabilityObserverBak {
 
     };
 
+    /*
     private final AppViewabilityObserver.IListener appListener = new AppViewabilityObserver.IListener() {
 
         @Override
@@ -30,6 +31,7 @@ public class ViewabilityObserverBak {
         }
 
     };
+    */
 
     @Nullable
     private ViewRect viewRect = null;
@@ -48,7 +50,7 @@ public class ViewabilityObserverBak {
             @NonNull IListener listener
     ) {
         viewObserver = new ViewPositionObserver(view, this.listener);
-        appObserver = new AppViewabilityObserver(view, appListener);
+        appObserver = /*new AppViewabilityObserver(view, appListener);*/ null;
         userListener = listener;
     }
 
