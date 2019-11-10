@@ -67,12 +67,19 @@ public class ViewabilityCalculator {
 
     @Nullable
     public ContentViewability getContentViewability() {
+        ContentSize contentInDisplay = areaCalculator.getContentInDisplay();
+        DisplaySize displaySize = areaCalculator.getDisplaySize();
+
+        if (contentInDisplay == null || displaySize == null) {
+            return null;
+        }
+
         return getContentViewability(
-                areaCalculator.getContentInDisplay(),
-                areaCalculator.getDisplaySize()
+                contentInDisplay,
+                displaySize
         );
     }
-    
+
     @NonNull
     public ContentViewability getContentViewability(
             @NonNull ContentSize contentInDisplay,
