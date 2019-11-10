@@ -1,11 +1,10 @@
 package jp.s64.android.viewablearea;
 
-import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-public class ViewabilityObserver {
+public class ViewabilityObserverBak {
 
     @NonNull
     private final ViewPositionObserver viewObserver;
@@ -18,7 +17,7 @@ public class ViewabilityObserver {
 
         @Override
         public void onViewRectChanged(@Nullable ViewRect oldViewRect, @NonNull ViewRect newViewRect) {
-            ViewabilityObserver.this.onViewRectChanged(oldViewRect, newViewRect);
+            ViewabilityObserverBak.this.onViewRectChanged(oldViewRect, newViewRect);
         }
 
     };
@@ -27,7 +26,7 @@ public class ViewabilityObserver {
 
         @Override
         public void onAppViewabilityChanged(@Nullable AppViewability oldViewability, @NonNull AppViewability newViewability) {
-            ViewabilityObserver.this.onAppViewabilityChanged(oldViewability, newViewability);
+            ViewabilityObserverBak.this.onAppViewabilityChanged(oldViewability, newViewability);
         }
 
     };
@@ -44,7 +43,7 @@ public class ViewabilityObserver {
     @NonNull
     private final IListener userListener;
 
-    public ViewabilityObserver(
+    public ViewabilityObserverBak(
             @NonNull View view,
             @NonNull IListener listener
     ) {

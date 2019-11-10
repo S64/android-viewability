@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appAreaObserver: AppAreaObserverBak
     private lateinit var viewPositionObserver: ViewPositionObserver
     private lateinit var appViewabilityObserver: AppViewabilityObserver
-    private lateinit var viewabilityObserver: ViewabilityObserver
+    private lateinit var viewabilityObserver: ViewabilityObserverBak
 
     private val displaySize by lazy { findViewById<TextView>(R.id.displaySize) }
     private val windowSize by lazy { findViewById<TextView>(R.id.windowSize) }
@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private val viewabilityListener = object : ViewabilityObserver.IListener {
+    private val viewabilityListener = object : ViewabilityObserverBak.IListener {
 
         override fun onViewabilityChanged(
             oldViewability: Viewability?,
@@ -130,7 +130,7 @@ class MainActivity : AppCompatActivity() {
             appViewabilityListener
         )
 
-        viewabilityObserver = ViewabilityObserver(
+        viewabilityObserver = ViewabilityObserverBak(
             targetView,
             viewabilityListener
         )
