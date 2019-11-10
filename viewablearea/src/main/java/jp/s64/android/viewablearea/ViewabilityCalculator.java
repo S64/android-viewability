@@ -2,7 +2,11 @@ package jp.s64.android.viewablearea;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.util.ObjectsCompat;
+import android.support.v4.view.ViewGroupCompat;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 
 public class ViewabilityCalculator {
 
@@ -24,6 +28,9 @@ public class ViewabilityCalculator {
             return true;
         }
     };
+
+    @NonNull
+    private final View view;
 
     @NonNull
     final AppViewabilityCalculator appCalc;
@@ -51,6 +58,7 @@ public class ViewabilityCalculator {
             @NonNull IScanDepth scanDepth
     ) {
         this(
+                view,
                 new AppViewabilityCalculator(
                         appAreaCalculator
                 ),
@@ -60,10 +68,12 @@ public class ViewabilityCalculator {
     }
 
     public ViewabilityCalculator(
+            @NonNull View view,
             @NonNull AppViewabilityCalculator appViewabilityCalculator,
             @NonNull ViewAreaCalculator viewAreaCalculator,
             @NonNull IScanDepth scanDepth
     ) {
+        this.view = view;
         this.appCalc = appViewabilityCalculator;
         this.viewCalc = viewAreaCalculator;
         this.scanDepth = scanDepth;
@@ -126,7 +136,33 @@ public class ViewabilityCalculator {
         if (realViewRect.getViewability() < 0) {
             return new Viewability(0);
         }
-        return new Viewability(realViewRect.getViewability()); // TODO
+
+        View root = appCalc.areaCalculator.getContentView();
+
+        View pItr = view;
+        for (int pIdx = -1;;pIdx--) {
+            ViewParent parent = pItr.getParent();
+            try {
+                if (ObjectsCompat.equals(parent, root)) {
+                    break;
+                }
+                digging(pItr, (ViewGroup) parent, pIdx);
+            } finally {
+                pItr = (View) parent;
+            }
+        }
+    }
+
+    private void digging(View src, ViewGroup startView, int startIdx) {
+        for (int i = startView.indexOfChild(src)+1;i<startView.getChildCount();i++) {
+            View itr = startView.getChildAt(i);
+
+            ViewAreaCalculator calc = new ViewAreaCalculator(itr, appCalc.areaCalculator);
+
+            if (!(itr instanceof ViewGroup) || ((ViewGroup)itr).getClipChildren()) {
+                calc.getViewRectInDisplay();
+            }
+        }
     }
 
     // endregion
