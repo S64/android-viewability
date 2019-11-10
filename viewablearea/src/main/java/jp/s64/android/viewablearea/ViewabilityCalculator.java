@@ -83,4 +83,24 @@ public class ViewabilityCalculator {
 
     // endregion
 
+    // region ViewabilityCalculator#getViewability
+
+    @Nullable
+    public Viewability getViewability() {
+        RealViewRect realViewRect = getRealViewRect();
+        return realViewRect != null ? getViewability(realViewRect) : null;
+    }
+
+    @NonNull
+    public Viewability getViewability(
+            @NonNull RealViewRect realViewRect
+    ) {
+        if (realViewRect.getViewability() < 0) {
+            return new Viewability(0);
+        }
+        return new Viewability(realViewRect.getViewability()); // TODO
+    }
+
+    // endregion
+
 }
