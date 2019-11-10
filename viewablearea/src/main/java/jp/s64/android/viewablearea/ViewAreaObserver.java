@@ -22,6 +22,9 @@ public class ViewAreaObserver implements Closeable {
     @NonNull
     private final IListener listener;
 
+    @Nullable
+    private final AppAreaObserver.IEventListener events;
+
     @NonNull
     private final AppAreaObserver.IEventListener appAreaEvents = new AppAreaObserver.IEventListener() {
 
@@ -121,9 +124,18 @@ public class ViewAreaObserver implements Closeable {
             @NonNull View view,
             @NonNull IListener listener
     ) {
+        this(view, listener, null);
+    }
+
+    public ViewAreaObserver(
+            @NonNull View view,
+            @NonNull IListener listener,
+            @Nullable AppAreaObserver.IEventListener events
+    ) {
         this.appAreaObserver = new AppAreaObserver(view, appAreaListener, appAreaEvents);
         this.calc = new ViewAreaCalculator(view);
         this.listener = listener;
+        this.events = events;
         start();
     }
 
@@ -168,6 +180,10 @@ public class ViewAreaObserver implements Closeable {
             }
         } finally {
             lastViewRectInContent = viewRectInContent;
+        }
+
+        if (events != null) {
+            events.onChangesCompleted();
         }
     }
 

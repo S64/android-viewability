@@ -199,6 +199,7 @@ public class AppViewabilityObserver implements Closeable {
 
     @Override
     public void close() {
+        areaObserver.close();
         viewabilityCalc.areaCalculator.activity.getApplication()
                 .unregisterActivityLifecycleCallbacks(lifecycleCallbacks);
     }

@@ -1,7 +1,6 @@
 package jp.s64.android.viewablearea;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 public class WindowViewability {
 
@@ -91,17 +90,17 @@ public class WindowViewability {
                 .append(getViewableLeft())
                 .append(" [")
                 .append(getInvisibleWidthLeft())
-                .append("],")
+                .append("], ")
                 .append("top: ")
                 .append(getViewableTop())
                 .append(" [")
                 .append(getInvisibleWidthTop())
-                .append("],")
+                .append("], ")
                 .append("right: ")
                 .append(getViewableRight())
                 .append(" [")
                 .append(getInvisibleWidthRight())
-                .append("],")
+                .append("], ")
                 .append("bottom: ")
                 .append(getViewableBottom())
                 .append(" [")

@@ -24,10 +24,14 @@ class ObserverActivity : AppCompatActivity() {
     private val windowViewability by lazy { findViewById<TextView>(R.id.windowViewability) }
     private val contentViewability by lazy { findViewById<TextView>(R.id.contentViewability) }
 
+    private val realViewRect by lazy { findViewById<TextView>(R.id.realViewRect) }
+
     private lateinit var appAreaObserver: AppAreaObserver
     private lateinit var viewAreaObserver: ViewAreaObserver
 
     private lateinit var appViewabilityObserver: AppViewabilityObserver
+
+    private lateinit var viewabilityObserver: ViewabilityObserver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,6 +99,17 @@ class ObserverActivity : AppCompatActivity() {
 
                 override fun onContentViewabilityChanged(newValue: ContentViewability?) {
                     this@ObserverActivity.contentViewability.text = newValue.toString()
+                }
+
+            }
+        )
+
+        viewabilityObserver = ViewabilityObserver(
+            targetView,
+            object : ViewabilityObserver.IListener {
+
+                override fun onRealViewRectChanged(newValue: RealViewRect?) {
+                    this@ObserverActivity.realViewRect.text = newValue.toString()
                 }
 
             }

@@ -80,14 +80,14 @@ public class ViewabilityObserverBak {
         int realViewPositionRightInDisplay = realViewPositionLeftInDisplay + viewRect.getWidthInPixels();
         int realViewPositionBottomInDisplay = realViewPositionTopInDisplay + viewRect.getHeightInPixels();
 
-        Viewability newViewability = new Viewability(
+        Viewability newViewability = /*new Viewability(
                 new ViewRect(
                         realViewPositionLeftInDisplay,
                         realViewPositionTopInDisplay,
                         realViewPositionRightInDisplay,
                         realViewPositionBottomInDisplay
                 )
-        );
+        );*/null;
 
         try {
             if (!Utils.objectsEquals(lastViewability, newViewability)) {
