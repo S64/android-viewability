@@ -7,38 +7,66 @@ import android.view.View;
 public class ViewabilityCalculator {
 
     @NonNull
+    public static IScanDepth createScanDepth(final int depth) {
+        return new IScanDepth() {
+
+            @Override
+            public boolean isScannable(int needle, @NonNull View target) {
+                return needle <= depth;
+            }
+
+        };
+    }
+
+    public static IScanDepth SCAN_INFINITE = new IScanDepth() {
+        @Override
+        public boolean isScannable(int depth, @NonNull View target) {
+            return true;
+        }
+    };
+
+    @NonNull
     final AppViewabilityCalculator appCalc;
 
     @NonNull
     private final ViewAreaCalculator viewCalc;
 
+    @NonNull
+    private final IScanDepth scanDepth;
+
     public ViewabilityCalculator(
-            @NonNull View view
+            @NonNull View view,
+            @NonNull IScanDepth scanDepth
     ) {
         this(
                 view,
-                new AppAreaCalculator(view)
+                new AppAreaCalculator(view),
+                scanDepth
         );
     }
 
     public ViewabilityCalculator(
             @NonNull View view,
-            @NonNull AppAreaCalculator appAreaCalculator
+            @NonNull AppAreaCalculator appAreaCalculator,
+            @NonNull IScanDepth scanDepth
     ) {
         this(
                 new AppViewabilityCalculator(
                         appAreaCalculator
                 ),
-                new ViewAreaCalculator(view, appAreaCalculator)
+                new ViewAreaCalculator(view, appAreaCalculator),
+                scanDepth
         );
     }
 
     public ViewabilityCalculator(
             @NonNull AppViewabilityCalculator appViewabilityCalculator,
-            @NonNull ViewAreaCalculator viewAreaCalculator
+            @NonNull ViewAreaCalculator viewAreaCalculator,
+            @NonNull IScanDepth scanDepth
     ) {
         this.appCalc = appViewabilityCalculator;
         this.viewCalc = viewAreaCalculator;
+        this.scanDepth = scanDepth;
     }
 
     // region ViewabilityCalculator#getRealViewRect
@@ -102,5 +130,11 @@ public class ViewabilityCalculator {
     }
 
     // endregion
+
+    public interface IScanDepth {
+
+        boolean isScannable(int depth, @NonNull View target);
+
+    }
 
 }
