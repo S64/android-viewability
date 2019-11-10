@@ -6,24 +6,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/nestedScrollView"
         app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/targetView"
-            android:layout_width="256dp"
-            android:layout_height="128dp"
-            android:layout_margin="8dp"
-            android:background="@color/colorAccent"
-            android:text="Target View"
-            android:textAlignment="center"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,13 +23,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Display: "/>
+                android:text="Display: " />
 
             <TextView
                 android:id="@+id/displaySize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="AAAxBBB"/>
+                tools:text="AAAxBBB" />
 
         </LinearLayout>
 
@@ -51,13 +41,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Window: "/>
+                android:text="Window: " />
 
             <TextView
                 android:id="@+id/windowSize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="AAAxBBB"/>
+                tools:text="AAAxBBB" />
 
         </LinearLayout>
 
@@ -69,13 +59,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SystemGaps: "/>
+                android:text="SystemGaps: " />
 
             <TextView
                 android:id="@+id/systemGaps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="AAAxBBB"/>
+                tools:text="AAAxBBB" />
 
         </LinearLayout>
 
@@ -87,13 +77,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ContentGaps: "/>
+                android:text="ContentGaps: " />
 
             <TextView
                 android:id="@+id/contentGaps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="AAAxBBB"/>
+                tools:text="AAAxBBB" />
 
         </LinearLayout>
 
@@ -105,13 +95,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ContentInDisplay: "/>
+                android:text="ContentInDisplay: " />
 
             <TextView
                 android:id="@+id/contentInDisplay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="AAAxBBB"/>
+                tools:text="AAAxBBB" />
 
         </LinearLayout>
 
@@ -123,13 +113,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ContentInWindow: "/>
+                android:text="ContentInWindow: " />
 
             <TextView
                 android:id="@+id/contentInWindow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="AAAxBBB"/>
+                tools:text="AAAxBBB" />
 
         </LinearLayout>
 
@@ -141,13 +131,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TargetInContent: "/>
+                android:text="TargetInContent: " />
 
             <TextView
                 android:id="@+id/targetInContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="AAAxBBB"/>
+                tools:text="AAAxBBB" />
 
         </LinearLayout>
 
@@ -159,13 +149,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TargetInWindow: "/>
+                android:text="TargetInWindow: " />
 
             <TextView
                 android:id="@+id/targetInWindow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="AAAxBBB"/>
+                tools:text="AAAxBBB" />
 
         </LinearLayout>
 
@@ -177,22 +167,22 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TargetInDisplay: "/>
+                android:text="TargetInDisplay: " />
 
             <TextView
                 android:id="@+id/targetInDisplay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="AAAxBBB"/>
+                tools:text="AAAxBBB" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -202,13 +192,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="WindowViewability: "/>
+                    android:text="WindowViewability: " />
 
                 <TextView
                     android:id="@+id/windowViewability"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:text="AAAxBBB"/>
+                    tools:text="AAAxBBB" />
 
             </LinearLayout>
 
@@ -220,13 +210,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ContentViewability: "/>
+                    android:text="ContentViewability: " />
 
                 <TextView
                     android:id="@+id/contentViewability"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:text="AAAxBBB"/>
+                    tools:text="AAAxBBB" />
 
             </LinearLayout>
 
@@ -235,9 +225,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -247,18 +237,54 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="RealViewRect: "/>
+                    android:text="RealViewRect: " />
 
                 <TextView
                     android:id="@+id/realViewRect"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:text="AAAxBBB"/>
+                    tools:text="AAAxBBB" />
 
             </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="512dp"/>
+
+            <TextView
+                android:id="@+id/targetView"
+                android:layout_width="128dp"
+                android:layout_height="64dp"
+                android:layout_margin="8dp"
+                android:background="@color/colorAccent"
+                android:text="Target View"
+                android:textAlignment="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="1080dp"/>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 
 </android.support.constraint.ConstraintLayout>

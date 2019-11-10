@@ -77,7 +77,13 @@ public class ContentViewability {
     public float getViewabilityInDisplay() {
         float actual = contentInDisplay.getWidthInPixels() * contentInDisplay.getHeightInPixels();
         float viewable = getViewableWidthInDisplay() * getViewableHeightInDisplay();
-        return viewable / actual;
+
+        float rate = viewable / actual;
+        if (rate < 0) {
+            return 0;
+        } else {
+            return rate;
+        }
     }
 
     @NonNull

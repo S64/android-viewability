@@ -24,23 +24,23 @@ public class RealViewRect {
     }
 
     public int getViewableLeft() {
-        int windowGapLeft = contentViewability.getInvisibleWidthLeftInDisplay();
-        return windowGapLeft > viewInContent.left ? 0 : viewInDisplay.left;
+        int contentLeft = contentViewability.getViewableLeftInDisplay();
+        return viewInDisplay.left < contentLeft ? contentLeft : viewInDisplay.left;
     }
 
     public int getViewableTop() {
-        int windowGapTop = contentViewability.getInvisibleWidthTopInDisplay();
-        return windowGapTop > viewInContent.top ? 0 : viewInDisplay.top;
+        int contentTop = contentViewability.getViewableTopInDisplay();
+        return viewInDisplay.top < contentTop ? contentTop : viewInDisplay.top;
     }
 
     public int getViewableRight() {
-        int windowRight = contentViewability.getViewableRightInDisplay();
-        return viewInDisplay.right > windowRight ? windowRight : viewInDisplay.right;
+        int contentRight = contentViewability.getViewableRightInDisplay();
+        return viewInDisplay.right > contentRight ? contentRight : viewInDisplay.right;
     }
 
     public int getViewableBottom() {
-        int windowBottom = contentViewability.getViewableBottomInDisplay();
-        return viewInDisplay.bottom > windowBottom ? windowBottom : viewInDisplay.bottom;
+        int contentBottom = contentViewability.getViewableBottomInDisplay();
+        return viewInDisplay.bottom > contentBottom ? contentBottom : viewInDisplay.bottom;
     }
 
     public int getViewableWidth() {
@@ -54,7 +54,14 @@ public class RealViewRect {
     public float getViewability() {
         float actual = viewInDisplay.getWidthInPixels() * viewInDisplay.getHeightInPixels();
         float viewable = getViewableWidth() * getViewableHeight();
-        return viewable / actual;
+
+        float rate = viewable / actual;
+
+        if (rate < 0) {
+            return 0;
+        } else {
+            return rate;
+        }
     }
 
     @NonNull

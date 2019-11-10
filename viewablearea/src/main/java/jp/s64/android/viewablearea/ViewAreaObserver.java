@@ -36,10 +36,10 @@ public class ViewAreaObserver implements Closeable {
     };
 
     @NonNull
-    private final ViewTreeObserver.OnGlobalLayoutListener layoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
+    private final ViewTreeObserver.OnDrawListener drawListener = new ViewTreeObserver.OnDrawListener() {
 
         @Override
-        public void onGlobalLayout() {
+        public void onDraw() {
             ViewAreaObserver.this.onLayout();
         }
 
@@ -189,7 +189,7 @@ public class ViewAreaObserver implements Closeable {
 
     private void start() {
         calc.requireActivity().getWindow().getDecorView().getViewTreeObserver()
-                .addOnGlobalLayoutListener(layoutListener);
+                .addOnDrawListener(drawListener);
         calc.requireActivity().getApplication()
                 .registerActivityLifecycleCallbacks(lifecycleCallbacks);
     }
@@ -198,7 +198,7 @@ public class ViewAreaObserver implements Closeable {
     public void close() {
         appAreaObserver.close();
         calc.requireActivity().getWindow().getDecorView().getViewTreeObserver()
-                .removeOnGlobalLayoutListener(layoutListener);
+                .removeOnDrawListener(drawListener);
         calc.requireActivity().getApplication()
                 .unregisterActivityLifecycleCallbacks(lifecycleCallbacks);
     }
