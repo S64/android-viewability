@@ -37,8 +37,6 @@ class ObserverActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.observer_activity)
 
-        val appAreaCalculator = AppAreaCalculator(this)
-
         appAreaObserver = AppAreaObserver(
             this,
             object : AppAreaObserver.IListener {

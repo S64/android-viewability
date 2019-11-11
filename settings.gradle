@@ -1,2 +1,2 @@
-include ':viewablearea', ':example'
+include ':example', ':apparea', ':core', ':viewarea'
 rootProject.name='android-viewable-area'
