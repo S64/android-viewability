@@ -1,13 +1,16 @@
 package jp.s64.android.viewablearea;
 
 import android.support.annotation.NonNull;
+import android.support.v4.util.ObjectsCompat;
 
-public class DisplaySize implements ISize {
+import java.util.Objects;
+
+class BaseDimension implements IDimension {
 
     private final int widthInPixels;
     private final int heightInPixels;
 
-    public DisplaySize(
+    protected BaseDimension(
             int widthInPixels,
             int heightInPixels
     ) {
@@ -29,18 +32,14 @@ public class DisplaySize implements ISize {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
-        DisplaySize that = (DisplaySize) o;
-
-        if (widthInPixels != that.widthInPixels) return false;
-        return heightInPixels == that.heightInPixels;
+        BaseDimension that = (BaseDimension) o;
+        return getWidthInPixels() == that.getWidthInPixels() &&
+                getHeightInPixels() == that.getHeightInPixels();
     }
 
     @Override
     public int hashCode() {
-        int result = widthInPixels;
-        result = 31 * result + heightInPixels;
-        return result;
+        return ObjectsCompat.hash(getWidthInPixels(), getHeightInPixels());
     }
 
     @NonNull

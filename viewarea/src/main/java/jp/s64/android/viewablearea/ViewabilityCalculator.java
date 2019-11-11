@@ -51,7 +51,7 @@ public class ViewabilityCalculator {
 
     @Nullable
     public RealViewRect getRealViewRect() {
-        DisplaySize displaySize = appCalc.areaCalculator.getDisplaySize();
+        DisplayDimension displaySize = appCalc.areaCalculator.getDisplaySize();
         ViewRect viewRectInWindow = viewCalc.getViewRectInWindow();
 
         if (displaySize == null || viewRectInWindow == null) {
@@ -68,8 +68,8 @@ public class ViewabilityCalculator {
 
     @NonNull
     public RealViewRect getRealViewRect(
-            @NonNull ContentSize contentInDisplay,
-            @NonNull DisplaySize displaySize,
+            @NonNull ContentRect contentInDisplay,
+            @NonNull DisplayDimension displaySize,
             @NonNull ContentGaps contentGaps,
             @NonNull ViewRect viewRectInWindow
     ) {

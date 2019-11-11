@@ -53,7 +53,7 @@ public class AppViewabilityCalculator {
     @NonNull
     public WindowViewability getWindowViewability(
             @NonNull WindowRect windowRect,
-            @NonNull DisplaySize displaySize
+            @NonNull DisplayDimension displaySize
     ) {
         return new WindowViewability(
                 windowRect,
@@ -67,8 +67,8 @@ public class AppViewabilityCalculator {
 
     @Nullable
     public ContentViewability getContentViewability() {
-        ContentSize contentInDisplay = areaCalculator.getContentInDisplay();
-        DisplaySize displaySize = areaCalculator.getDisplaySize();
+        ContentRect contentInDisplay = areaCalculator.getContentInDisplay();
+        DisplayDimension displaySize = areaCalculator.getDisplaySize();
 
         if (contentInDisplay == null || displaySize == null) {
             return null;
@@ -82,8 +82,8 @@ public class AppViewabilityCalculator {
 
     @NonNull
     public ContentViewability getContentViewability(
-            @NonNull ContentSize contentInDisplay,
-            @NonNull DisplaySize displaySize
+            @NonNull ContentRect contentInDisplay,
+            @NonNull DisplayDimension displaySize
     ) {
         return new ContentViewability(
                 contentInDisplay,

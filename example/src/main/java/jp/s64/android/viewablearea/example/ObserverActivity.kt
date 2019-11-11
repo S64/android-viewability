@@ -41,7 +41,7 @@ class ObserverActivity : AppCompatActivity() {
             this,
             object : AppAreaObserver.IListener {
 
-                override fun onDisplaySizeChanged(newValue: DisplaySize?) {
+                override fun onDisplaySizeChanged(newValue: DisplayDimension?) {
                     this@ObserverActivity.displaySize.text = newValue.toString()
                 }
 
@@ -57,11 +57,11 @@ class ObserverActivity : AppCompatActivity() {
                     this@ObserverActivity.contentGaps.text = contentGaps.toString()
                 }
 
-                override fun onContentInDisplayChanged(contentInDisplay: ContentSize?) {
+                override fun onContentInDisplayChanged(contentInDisplay: ContentRect?) {
                     this@ObserverActivity.contentInDisplay.text = contentInDisplay.toString()
                 }
 
-                override fun onContentInWindowChanged(contentInWindow: ContentSize?) {
+                override fun onContentInWindowChanged(contentInWindow: ContentRect?) {
                     this@ObserverActivity.contentInWindow.text = contentInWindow.toString()
                 }
 

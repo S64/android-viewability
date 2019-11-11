@@ -142,7 +142,7 @@ public class AppAreaObserver implements Closeable {
     }
 
     @Nullable
-    private DisplaySize lastDisplaySize;
+    private DisplayDimension lastDisplaySize;
 
     @Nullable
     private WindowRect lastWindowRect;
@@ -154,27 +154,27 @@ public class AppAreaObserver implements Closeable {
     private ContentGaps lastContentGaps;
 
     @Nullable
-    private ContentSize lastContentInDisplay;
+    private ContentRect lastContentInDisplay;
 
     @Nullable
-    private ContentSize lastContentInWindow;
+    private ContentRect lastContentInWindow;
 
     private void onLayout() {
         Window window;
         View decorView;
         Display display;
         View contentView;
-        ContentSize contentSize;
+        ContentRect contentRect;
         {
             window = calc.getWindow();
             decorView = calc.getDecorView(window);
             display = calc.getCurrentDisplay(decorView);
 
             contentView = calc.getContentView(decorView);
-            contentSize = calc.getContentSize(contentView);
+            contentRect = calc.getContentSize(contentView);
         }
 
-        DisplaySize displaySize = display != null ? calc.getDisplaySize(display) : null;
+        DisplayDimension displaySize = display != null ? calc.getDisplaySize(display) : null;
         try {
             if (!ObjectsCompat.equals(lastDisplaySize, displaySize)) {
                 listener.onDisplaySizeChanged(displaySize);
@@ -201,7 +201,7 @@ public class AppAreaObserver implements Closeable {
             lastSystemGaps = systemGaps;
         }
 
-        ContentGaps contentGaps = calc.getContentGaps(contentSize, windowRect);
+        ContentGaps contentGaps = calc.getContentGaps(contentRect, windowRect);
         try {
             if (!ObjectsCompat.equals(lastContentGaps, contentGaps)) {
                 listener.onContentGapsChanged(contentGaps);
@@ -210,7 +210,7 @@ public class AppAreaObserver implements Closeable {
             lastContentGaps = contentGaps;
         }
 
-        ContentSize contentInDisplay = displaySize != null ? calc.getContentInDisplay(displaySize, systemGaps, contentGaps) : null;
+        ContentRect contentInDisplay = displaySize != null ? calc.getContentInDisplay(displaySize, systemGaps, contentGaps) : null;
         try {
             if (!ObjectsCompat.equals(lastContentInDisplay, contentInDisplay)) {
                 listener.onContentInDisplayChanged(contentInDisplay);
@@ -219,7 +219,7 @@ public class AppAreaObserver implements Closeable {
             lastContentInDisplay = contentInDisplay;
         }
 
-        ContentSize contentInWindow = calc.getContentInWindow(contentView, contentGaps);
+        ContentRect contentInWindow = calc.getContentInWindow(contentView, contentGaps);
         try {
             if (!ObjectsCompat.equals(lastContentInWindow, contentInWindow)) {
                 listener.onContentInWindowChanged(contentInWindow);
@@ -249,7 +249,7 @@ public class AppAreaObserver implements Closeable {
 
     public interface IListener {
 
-        void onDisplaySizeChanged(@Nullable DisplaySize newValue);
+        void onDisplaySizeChanged(@Nullable DisplayDimension newValue);
 
         void onWindowRectChanged(@NonNull WindowRect windowRect);
 
@@ -257,9 +257,9 @@ public class AppAreaObserver implements Closeable {
 
         void onContentGapsChanged(@NonNull ContentGaps contentGaps);
 
-        void onContentInDisplayChanged(@Nullable ContentSize contentInDisplay);
+        void onContentInDisplayChanged(@Nullable ContentRect contentInDisplay);
 
-        void onContentInWindowChanged(@Nullable ContentSize contentInWindow);
+        void onContentInWindowChanged(@Nullable ContentRect contentInWindow);
 
     }
 

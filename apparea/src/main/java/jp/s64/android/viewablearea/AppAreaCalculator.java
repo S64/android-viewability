@@ -50,7 +50,7 @@ public class AppAreaCalculator {
     }
 
     @Nullable
-    public DisplaySize getDisplaySize() {
+    public DisplayDimension getDisplaySize() {
         Display display = getCurrentDisplay();
         if (display == null) {
             return null;
@@ -59,7 +59,7 @@ public class AppAreaCalculator {
     }
 
     @NonNull
-    public DisplaySize getDisplaySize(@NonNull Display display) {
+    public DisplayDimension getDisplaySize(@NonNull Display display) {
         final DisplayMetrics metrics = new DisplayMetrics();
 
         if (Build.VERSION.SDK_INT >= 17) {
@@ -68,7 +68,7 @@ public class AppAreaCalculator {
             display.getMetrics(metrics);
         }
 
-        return new DisplaySize(metrics.widthPixels, metrics.heightPixels);
+        return new DisplayDimension(metrics.widthPixels, metrics.heightPixels);
     }
 
     @NonNull
@@ -84,15 +84,15 @@ public class AppAreaCalculator {
     }
 
     @NonNull
-    ContentSize getContentSize() {
+    ContentRect getContentSize() {
         return getContentSize(getContentView());
     }
 
     @NonNull
-    ContentSize getContentSize(@NonNull View contentView) {
+    ContentRect getContentSize(@NonNull View contentView) {
         int[] loc = new int[2];
         contentView.getLocationOnScreen(loc);
-        return new ContentSize(
+        return new ContentRect(
                 loc[0],
                 loc[1],
                 loc[0] + contentView.getMeasuredWidth(),
@@ -112,7 +112,7 @@ public class AppAreaCalculator {
 
     @Nullable
     public SystemGaps getSystemGaps() {
-        DisplaySize display = getDisplaySize();
+        DisplayDimension display = getDisplaySize();
         WindowRect window = getWindowRect();
 
         if (display == null) {
@@ -123,7 +123,7 @@ public class AppAreaCalculator {
     }
 
     @NonNull
-    public SystemGaps getSystemGaps(@NonNull DisplaySize display, @NonNull WindowRect window) {
+    public SystemGaps getSystemGaps(@NonNull DisplayDimension display, @NonNull WindowRect window) {
         return new SystemGaps(
                 window.left,
                 window.top,
@@ -138,7 +138,7 @@ public class AppAreaCalculator {
     }
 
     @NonNull
-    public ContentGaps getContentGaps(@NonNull ContentSize content, @NonNull WindowRect window) {
+    public ContentGaps getContentGaps(@NonNull ContentRect content, @NonNull WindowRect window) {
         return new ContentGaps(
                 content.left - window.left,
                 content.top - window.top,
@@ -148,8 +148,8 @@ public class AppAreaCalculator {
     }
 
     @Nullable
-    public ContentSize getContentInDisplay() {
-        DisplaySize display = getDisplaySize();
+    public ContentRect getContentInDisplay() {
+        DisplayDimension display = getDisplaySize();
         SystemGaps systemGaps = getSystemGaps();
         ContentGaps contentGaps = getContentGaps();
 
@@ -161,12 +161,12 @@ public class AppAreaCalculator {
     }
 
     @NonNull
-    public ContentSize getContentInDisplay(
-            @NonNull DisplaySize display,
+    public ContentRect getContentInDisplay(
+            @NonNull DisplayDimension display,
             @NonNull SystemGaps systemGaps,
             @NonNull ContentGaps contentGaps
     ) {
-        return new ContentSize(
+        return new ContentRect(
                 systemGaps.getLeftInPixels() + contentGaps.getLeftInPixels(),
                 systemGaps.getTopInPixels() + contentGaps.getTopInPixels(),
                 display.getWidthInPixels() - systemGaps.getRightInPixels() - contentGaps.getRightInPixels(),
@@ -175,7 +175,7 @@ public class AppAreaCalculator {
     }
 
     @NonNull
-    public ContentSize getContentInWindow() {
+    public ContentRect getContentInWindow() {
         return getContentInWindow(
                 getContentView(),
                 getContentGaps()
@@ -183,11 +183,11 @@ public class AppAreaCalculator {
     }
 
     @NonNull
-    public ContentSize getContentInWindow(
+    public ContentRect getContentInWindow(
             @NonNull View content,
             @NonNull ContentGaps contentGaps
     ) {
-        return new ContentSize(
+        return new ContentRect(
                 contentGaps.getLeftInPixels(),
                 contentGaps.getTopInPixels(),
                 contentGaps.getLeftInPixels() + content.getMeasuredWidth(),

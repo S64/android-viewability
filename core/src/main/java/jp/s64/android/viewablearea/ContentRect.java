@@ -3,15 +3,15 @@ package jp.s64.android.viewablearea;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 
-public class ContentSize extends BaseRect {
+public class ContentRect extends BaseRect {
 
-    public ContentSize(
+    public ContentRect(
             @NonNull Rect rect
     ) {
         super(rect);
     }
 
-    public ContentSize(
+    public ContentRect(
             int leftInPixels,
             int topInPixels,
             int rightInPixels,
@@ -21,7 +21,8 @@ public class ContentSize extends BaseRect {
                 leftInPixels,
                 topInPixels,
                 rightInPixels,
-                bottomInPixels);
+                bottomInPixels
+        );
     }
 
 }

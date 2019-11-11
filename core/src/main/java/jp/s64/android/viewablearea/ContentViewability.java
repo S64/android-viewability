@@ -5,14 +5,14 @@ import android.support.annotation.NonNull;
 public class ContentViewability {
 
     @NonNull
-    private final ContentSize contentInDisplay;
+    private final ContentRect contentInDisplay;
 
     @NonNull
-    private final DisplaySize displaySize;
+    private final DisplayDimension displaySize;
 
     public ContentViewability(
-            @NonNull ContentSize contentInDisplay,
-            @NonNull DisplaySize displaySize
+            @NonNull ContentRect contentInDisplay,
+            @NonNull DisplayDimension displaySize
     ) {
         this.contentInDisplay = contentInDisplay;
         this.displaySize = displaySize;

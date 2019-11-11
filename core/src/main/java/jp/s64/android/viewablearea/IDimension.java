@@ -1,6 +1,6 @@
 package jp.s64.android.viewablearea;
 
-public interface ISize {
+public interface IDimension {
 
     int getWidthInPixels();
 

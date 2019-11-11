@@ -26,7 +26,7 @@ public class ViewabilityObserver implements Closeable {
     private final AppAreaObserver.IListener appListener = new AppAreaObserver.IListener() {
 
         @Override
-        public void onDisplaySizeChanged(@Nullable DisplaySize newValue) {
+        public void onDisplaySizeChanged(@Nullable DisplayDimension newValue) {
             ViewabilityObserver.this.displaySize = newValue;
         }
 
@@ -46,12 +46,12 @@ public class ViewabilityObserver implements Closeable {
         }
 
         @Override
-        public void onContentInDisplayChanged(@Nullable ContentSize contentInDisplay) {
+        public void onContentInDisplayChanged(@Nullable ContentRect contentInDisplay) {
             ViewabilityObserver.this.contentInDisplay = contentInDisplay;
         }
 
         @Override
-        public void onContentInWindowChanged(@Nullable ContentSize contentInWindow) {
+        public void onContentInWindowChanged(@Nullable ContentRect contentInWindow) {
             // no-op
         }
 
@@ -126,13 +126,13 @@ public class ViewabilityObserver implements Closeable {
     };
 
     @Nullable
-    private DisplaySize displaySize;
+    private DisplayDimension displaySize;
 
     @Nullable
     private ContentGaps contentGaps;
 
     @Nullable
-    private ContentSize contentInDisplay;
+    private ContentRect contentInDisplay;
 
     @Nullable
     private ViewRect viewRectInWindow;

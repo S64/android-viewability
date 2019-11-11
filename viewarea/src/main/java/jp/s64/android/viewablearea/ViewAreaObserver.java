@@ -89,7 +89,7 @@ public class ViewAreaObserver implements Closeable {
     private final AppAreaObserver.IListener appAreaListener = new AppAreaObserver.IListener() {
 
         @Override
-        public void onDisplaySizeChanged(@Nullable DisplaySize newValue) {
+        public void onDisplaySizeChanged(@Nullable DisplayDimension newValue) {
             // no-op
         }
 
@@ -109,12 +109,12 @@ public class ViewAreaObserver implements Closeable {
         }
 
         @Override
-        public void onContentInDisplayChanged(@Nullable ContentSize contentInDisplay) {
+        public void onContentInDisplayChanged(@Nullable ContentRect contentInDisplay) {
             // no-op
         }
 
         @Override
-        public void onContentInWindowChanged(@Nullable ContentSize contentInWindow) {
+        public void onContentInWindowChanged(@Nullable ContentRect contentInWindow) {
             // no-op
         }
 

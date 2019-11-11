@@ -8,11 +8,11 @@ public class WindowViewability {
     private final WindowRect actualWindow;
 
     @NonNull
-    private final DisplaySize displaySize;
+    private final DisplayDimension displaySize;
 
     public WindowViewability(
             @NonNull WindowRect actualWindow,
-            @NonNull DisplaySize displaySize
+            @NonNull DisplayDimension displaySize
     ) {
         this.actualWindow = actualWindow;
         this.displaySize = displaySize;
