@@ -6,13 +6,34 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.1'
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.50'
+        classpath 'digital.wup:android-maven-publish:3.6.2'
     }
 }
 
 allprojects {
+    apply plugin: 'digital.wup.android-maven-publish'
+    group = 'jp.s64.android.viewability'
     repositories {
         google()
         jcenter()
+        maven {
+            credentials {
+                username = 'S64'
+                password = 'ead65af21fc5c7476543d83c6f6d1928961b1fcd'
+            }
+            url 'https://maven.pkg.github.com/S64/android-viewability'
+        }
+    }
+    publishing {
+        repositories {
+            maven {
+                credentials {
+                    username = 'S64'
+                    password = 'ead65af21fc5c7476543d83c6f6d1928961b1fcd'
+                }
+                url = 'https://maven.pkg.github.com/S64/android-viewability'
+            }
+        }
     }
 }
 
