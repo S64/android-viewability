@@ -8,7 +8,9 @@ import android.view.View;
 import jp.s64.android.viewability.ViewUtils;
 import jp.s64.android.viewability.core.gaps.ContentGaps;
 import jp.s64.android.viewability.core.gaps.SystemGaps;
-import jp.s64.android.viewability.core.rect.ViewRect;
+import jp.s64.android.viewability.core.rect.WidgetRectInContent;
+import jp.s64.android.viewability.core.rect.WidgetRectInDisplay;
+import jp.s64.android.viewability.core.rect.WidgetRectInWindow;
 
 public class ViewAreaCalculator {
 
@@ -32,60 +34,60 @@ public class ViewAreaCalculator {
     }
 
     @Nullable
-    public ViewRect getViewRectInContent() {
+    public WidgetRectInContent getViewRectInContent() {
         ContentGaps content = area.getContentGaps();
-        ViewRect viewRect = getViewRectInWindow();
+        WidgetRectInWindow widgetRect = getViewRectInWindow();
 
-        return viewRect != null ? getViewRectInContent(
+        return widgetRect != null ? getViewRectInContent(
                 content,
-                viewRect
+                widgetRect
         ) : null;
     }
 
     @NonNull
-    public ViewRect getViewRectInContent(
+    public WidgetRectInContent getViewRectInContent(
             @NonNull ContentGaps contentGaps,
-            @NonNull ViewRect viewRectInWindow
+            @NonNull WidgetRectInWindow widgetRectInWindow
     ) {
-        int left = viewRectInWindow.left - contentGaps.getLeftInPixels();
-        int top = viewRectInWindow.top - contentGaps.getTopInPixels();
+        int left = widgetRectInWindow.left - contentGaps.getLeftInPixels();
+        int top = widgetRectInWindow.top - contentGaps.getTopInPixels();
 
-        return new ViewRect(
+        return new WidgetRectInContent(
                 left,
                 top,
-                left + viewRectInWindow.getWidthInPixels(),
-                top + viewRectInWindow.getHeightInPixels()
+                left + widgetRectInWindow.getWidthInPixels(),
+                top + widgetRectInWindow.getHeightInPixels()
         );
     }
 
     @Nullable
-    public ViewRect getViewRectInWindow() {
+    public WidgetRectInWindow getViewRectInWindow() {
         SystemGaps systemGaps = area.getSystemGaps();
-        ViewRect viewRectInDisplay = getViewRectInDisplay();
-        return systemGaps != null ? getViewRectInWindow(systemGaps, viewRectInDisplay) : null;
+        WidgetRectInDisplay widgetRectInDisplay = getViewRectInDisplay();
+        return systemGaps != null ? getViewRectInWindow(systemGaps, widgetRectInDisplay) : null;
     }
 
     @NonNull
-    public ViewRect getViewRectInWindow(
+    public WidgetRectInWindow getViewRectInWindow(
             @NonNull SystemGaps systemGaps,
-            @NonNull ViewRect viewRectInDisplay
+            @NonNull WidgetRectInDisplay widgetRectInDisplay
     ) {
-        int left = viewRectInDisplay.left - systemGaps.getLeftInPixels();
-        int top = viewRectInDisplay.top - systemGaps.getTopInPixels();
+        int left = widgetRectInDisplay.left - systemGaps.getLeftInPixels();
+        int top = widgetRectInDisplay.top - systemGaps.getTopInPixels();
 
-        return new ViewRect(
+        return new WidgetRectInWindow(
                 left,
                 top,
-                left + viewRectInDisplay.getWidthInPixels(),
-                top + viewRectInDisplay.getHeightInPixels()
+                left + widgetRectInDisplay.getWidthInPixels(),
+                top + widgetRectInDisplay.getHeightInPixels()
         );
     }
 
     @NonNull
-    public ViewRect getViewRectInDisplay() {
+    public WidgetRectInDisplay getViewRectInDisplay() {
         int[] loc = new int[2];
         view.getLocationOnScreen(loc);
-        return new ViewRect(
+        return new WidgetRectInDisplay(
                 loc[0],
                 loc[1],
                 loc[0] + view.getMeasuredWidth(),

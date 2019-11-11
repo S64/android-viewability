@@ -4,77 +4,77 @@ import android.support.annotation.NonNull;
 
 import jp.s64.android.viewability.core.viewability.ContentViewability;
 
-public class RealViewRect {
+public class RealWidgetRect {
 
     @NonNull
     private final ContentViewability contentViewability;
 
     @NonNull
-    private final ViewRect viewInDisplay;
+    private final WidgetRectInDisplay widgetInDisplay;
 
     @NonNull
-    private final ViewRect viewInContent;
+    private final WidgetRectInContent widgetInContent;
 
-    public RealViewRect(
+    public RealWidgetRect(
             @NonNull ContentViewability contentViewability,
-            @NonNull ViewRect viewInDisplay,
-            @NonNull ViewRect viewInContent
+            @NonNull WidgetRectInDisplay widgetInDisplay,
+            @NonNull WidgetRectInContent widgetInContent
     ) {
         this.contentViewability = contentViewability;
-        this.viewInDisplay = viewInDisplay;
-        this.viewInContent = viewInContent;
+        this.widgetInDisplay = widgetInDisplay;
+        this.widgetInContent = widgetInContent;
     }
 
     public int getViewableLeft() {
         int contentLeft = contentViewability.getViewableLeftInDisplay();
         int contentRight = contentViewability.getViewableRightInDisplay();
 
-        if (viewInDisplay.left < contentLeft) {
+        if (widgetInDisplay.left < contentLeft) {
             return contentLeft;
-        } else if (viewInDisplay.left > contentRight) {
+        } else if (widgetInDisplay.left > contentRight) {
             return contentRight;
         }
 
-        return viewInDisplay.left;
+        return widgetInDisplay.left;
     }
 
     public int getViewableTop() {
         int contentTop = contentViewability.getViewableTopInDisplay();
         int contentBottom = contentViewability.getViewableBottomInDisplay();
 
-        if (viewInDisplay.top < contentTop) {
+        if (widgetInDisplay.top < contentTop) {
             return contentTop;
-        } else if (viewInDisplay.top > contentBottom) {
+        } else if (widgetInDisplay.top > contentBottom) {
             return contentBottom;
         }
 
-        return viewInDisplay.top;
+        return widgetInDisplay.top;
     }
 
     public int getViewableRight() {
         int contentLeft = contentViewability.getViewableLeftInDisplay();
         int contentRight = contentViewability.getViewableRightInDisplay();
 
-        if (viewInDisplay.right > contentRight) {
+        if (widgetInDisplay.right > contentRight) {
             return contentRight;
-        } else if (viewInDisplay.right < contentLeft) {
+        } else if (widgetInDisplay.right < contentLeft) {
             return contentLeft;
         }
 
-        return viewInDisplay.right;
+        return widgetInDisplay.right;
     }
 
     public int getViewableBottom() {
         int contentTop = contentViewability.getViewableTopInDisplay();
         int contentBottom = contentViewability.getViewableBottomInDisplay();
 
-        if (viewInDisplay.bottom > contentBottom) {
+        if (widgetInDisplay.bottom > contentBottom) {
             return contentBottom;
-        } else if (viewInDisplay.bottom < contentTop) {
+        } else if (widgetInDisplay.bottom < contentTop) {
             return contentTop;
         }
 
-        return viewInDisplay.bottom;
+        return widgetInDisplay.bottom;
     }
 
     public int getViewableWidth() {
@@ -86,7 +86,7 @@ public class RealViewRect {
     }
 
     public float getViewability() {
-        float actual = viewInDisplay.getWidthInPixels() * viewInDisplay.getHeightInPixels();
+        float actual = widgetInDisplay.getWidthInPixels() * widgetInDisplay.getHeightInPixels();
         float viewable = getViewableWidth() * getViewableHeight();
 
         float rate = viewable / actual;

@@ -15,7 +15,9 @@ import jp.s64.android.viewability.core.dimension.DisplayDimension;
 import jp.s64.android.viewability.core.gaps.ContentGaps;
 import jp.s64.android.viewability.core.gaps.SystemGaps;
 import jp.s64.android.viewability.core.rect.ContentRect;
-import jp.s64.android.viewability.core.rect.ViewRect;
+import jp.s64.android.viewability.core.rect.WidgetRectInContent;
+import jp.s64.android.viewability.core.rect.WidgetRectInDisplay;
+import jp.s64.android.viewability.core.rect.WidgetRectInWindow;
 import jp.s64.android.viewability.core.rect.WindowRect;
 
 public class ViewAreaObserver implements Closeable {
@@ -101,27 +103,27 @@ public class ViewAreaObserver implements Closeable {
         }
 
         @Override
-        public void onWindowRectChanged(@NonNull WindowRect windowRect) {
+        public void onWindowRectChanged(@NonNull WindowRect newValue) {
             // no-op
         }
 
         @Override
-        public void onSystemGapsChanged(@Nullable SystemGaps systemGaps) {
-            ViewAreaObserver.this.systemGaps = systemGaps;
+        public void onSystemGapsChanged(@Nullable SystemGaps newValue) {
+            ViewAreaObserver.this.systemGaps = newValue;
         }
 
         @Override
-        public void onContentGapsChanged(@NonNull ContentGaps contentGaps) {
-            ViewAreaObserver.this.contentGaps = contentGaps;
+        public void onContentGapsChanged(@NonNull ContentGaps newValue) {
+            ViewAreaObserver.this.contentGaps = newValue;
         }
 
         @Override
-        public void onContentInDisplayChanged(@Nullable ContentRect contentInDisplay) {
+        public void onContentInDisplayChanged(@Nullable ContentRect newValue) {
             // no-op
         }
 
         @Override
-        public void onContentInWindowChanged(@Nullable ContentRect contentInWindow) {
+        public void onContentInWindowChanged(@Nullable ContentRect newValue) {
             // no-op
         }
 
@@ -153,40 +155,41 @@ public class ViewAreaObserver implements Closeable {
     private SystemGaps systemGaps;
 
     @Nullable
-    private ViewRect lastViewRectInDisplay;
+    private WidgetRectInDisplay lastWidgetRectInDisplay;
 
     @Nullable
-    private ViewRect lastViewRectInContent;
+    private WidgetRectInContent lastWidgetRectInContent;
 
     @Nullable
-    private ViewRect lastViewRectInWindow;
+    private WidgetRectInWindow lastWidgetRectInWindow;
 
     private void onLayout() {
-        ViewRect viewRectInDisplay = calc.getViewRectInDisplay();
+        WidgetRectInDisplay widgetRectInDisplay = calc.getViewRectInDisplay();
         try {
-            if (!ObjectsCompat.equals(lastViewRectInDisplay, viewRectInDisplay)) {
-                listener.onViewRectInDisplayChanged(viewRectInDisplay);
+            if (!ObjectsCompat.equals(lastWidgetRectInDisplay, widgetRectInDisplay)) {
+                listener.onViewRectInDisplayChanged(widgetRectInDisplay);
             }
         } finally {
-            lastViewRectInDisplay = viewRectInDisplay;
+            lastWidgetRectInDisplay = widgetRectInDisplay;
         }
 
-        ViewRect viewRectInWindow = systemGaps != null ? calc.getViewRectInWindow(systemGaps, viewRectInDisplay) : null;
+        WidgetRectInWindow widgetRectInWindow = systemGaps != null ? calc.getViewRectInWindow(systemGaps, widgetRectInDisplay) : null;
         try {
-            if (!ObjectsCompat.equals(lastViewRectInWindow, viewRectInWindow)) {
-                listener.onViewRectInWindowChanged(viewRectInWindow);
+            if (!ObjectsCompat.equals(lastWidgetRectInWindow, widgetRectInWindow)) {
+                listener.onViewRectInWindowChanged(widgetRectInWindow);
             }
         } finally {
-            lastViewRectInWindow = viewRectInWindow;
+            lastWidgetRectInWindow = widgetRectInWindow;
         }
 
-        ViewRect viewRectInContent = contentGaps != null ? calc.getViewRectInContent(contentGaps, viewRectInWindow) : null;
+        WidgetRectInContent widgetRectInContent = contentGaps != null && widgetRectInWindow != null
+                ? calc.getViewRectInContent(contentGaps, widgetRectInWindow) : null;
         try {
-            if (!ObjectsCompat.equals(lastViewRectInContent, viewRectInContent)) {
-                listener.onViewRectInContentChanged(viewRectInContent);
+            if (!ObjectsCompat.equals(lastWidgetRectInContent, widgetRectInContent)) {
+                listener.onViewRectInContentChanged(widgetRectInContent);
             }
         } finally {
-            lastViewRectInContent = viewRectInContent;
+            lastWidgetRectInContent = widgetRectInContent;
         }
 
         if (events != null) {
@@ -218,9 +221,9 @@ public class ViewAreaObserver implements Closeable {
 
     public interface IListener {
 
-        void onViewRectInContentChanged(@Nullable ViewRect newValue);
-        void onViewRectInWindowChanged(@Nullable ViewRect newValue);
-        void onViewRectInDisplayChanged(@NonNull ViewRect newValue);
+        void onViewRectInContentChanged(@Nullable WidgetRectInContent newValue);
+        void onViewRectInWindowChanged(@Nullable WidgetRectInWindow newValue);
+        void onViewRectInDisplayChanged(@NonNull WidgetRectInDisplay newValue);
 
     }
 

@@ -7,8 +7,10 @@ import android.view.View;
 import jp.s64.android.viewability.core.dimension.DisplayDimension;
 import jp.s64.android.viewability.core.gaps.ContentGaps;
 import jp.s64.android.viewability.core.rect.ContentRect;
-import jp.s64.android.viewability.core.rect.RealViewRect;
-import jp.s64.android.viewability.core.rect.ViewRect;
+import jp.s64.android.viewability.core.rect.RealWidgetRect;
+import jp.s64.android.viewability.core.rect.WidgetRectInContent;
+import jp.s64.android.viewability.core.rect.WidgetRectInDisplay;
+import jp.s64.android.viewability.core.rect.WidgetRectInWindow;
 import jp.s64.android.viewability.core.viewability.ContentViewability;
 import jp.s64.android.viewability.core.viewability.Viewability;
 
@@ -58,11 +60,11 @@ public class ViewabilityCalculator {
     // region ViewabilityCalculator#getRealViewRect
 
     @Nullable
-    public RealViewRect getRealViewRect() {
-        DisplayDimension displaySize = appCalc.areaCalculator.getDisplaySize();
-        ViewRect viewRectInWindow = viewCalc.getViewRectInWindow();
+    public RealWidgetRect getRealViewRect() {
+        DisplayDimension displaySize = appCalc.areaCalculator.getDisplayDimension();
+        WidgetRectInWindow widgetRectInWindow = viewCalc.getViewRectInWindow();
 
-        if (displaySize == null || viewRectInWindow == null) {
+        if (displaySize == null || widgetRectInWindow == null) {
             return null;
         }
 
@@ -70,25 +72,25 @@ public class ViewabilityCalculator {
                 appCalc.areaCalculator.getContentSize(),
                 displaySize,
                 appCalc.areaCalculator.getContentGaps(),
-                viewRectInWindow
+                widgetRectInWindow
         );
     }
 
     @NonNull
-    public RealViewRect getRealViewRect(
+    public RealWidgetRect getRealViewRect(
             @NonNull ContentRect contentInDisplay,
             @NonNull DisplayDimension displaySize,
             @NonNull ContentGaps contentGaps,
-            @NonNull ViewRect viewRectInWindow
+            @NonNull WidgetRectInWindow widgetRectInWindow
     ) {
         ContentViewability contentViewability
                 = appCalc.getContentViewability(contentInDisplay, displaySize);
-        ViewRect viewInDisplay
+        WidgetRectInDisplay viewInDisplay
                 = viewCalc.getViewRectInDisplay();
-        ViewRect viewInContent
-                = viewCalc.getViewRectInContent(contentGaps, viewRectInWindow);
+        WidgetRectInContent viewInContent
+                = viewCalc.getViewRectInContent(contentGaps, widgetRectInWindow);
 
-        return new RealViewRect(
+        return new RealWidgetRect(
                 contentViewability,
                 viewInDisplay,
                 viewInContent
@@ -101,18 +103,18 @@ public class ViewabilityCalculator {
 
     @Nullable
     public Viewability getViewability() {
-        RealViewRect realViewRect = getRealViewRect();
-        return realViewRect != null ? getViewability(realViewRect) : null;
+        RealWidgetRect realWidgetRect = getRealViewRect();
+        return realWidgetRect != null ? getViewability(realWidgetRect) : null;
     }
 
     @NonNull
     public Viewability getViewability(
-            @NonNull RealViewRect realViewRect
+            @NonNull RealWidgetRect realWidgetRect
     ) {
-        if (realViewRect.getViewability() < 0) {
+        if (realWidgetRect.getViewability() < 0) {
             return new Viewability(0);
         }
-        return new Viewability(realViewRect.getViewability()); // TODO
+        return new Viewability(realWidgetRect.getViewability()); // TODO
     }
 
     // endregion

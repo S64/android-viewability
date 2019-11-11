@@ -14,8 +14,10 @@ import jp.s64.android.viewability.core.dimension.DisplayDimension;
 import jp.s64.android.viewability.core.gaps.ContentGaps;
 import jp.s64.android.viewability.core.gaps.SystemGaps;
 import jp.s64.android.viewability.core.rect.ContentRect;
-import jp.s64.android.viewability.core.rect.RealViewRect;
-import jp.s64.android.viewability.core.rect.ViewRect;
+import jp.s64.android.viewability.core.rect.RealWidgetRect;
+import jp.s64.android.viewability.core.rect.WidgetRectInContent;
+import jp.s64.android.viewability.core.rect.WidgetRectInDisplay;
+import jp.s64.android.viewability.core.rect.WidgetRectInWindow;
 import jp.s64.android.viewability.core.rect.WindowRect;
 
 public class ViewabilityObserver implements Closeable {
@@ -39,27 +41,27 @@ public class ViewabilityObserver implements Closeable {
         }
 
         @Override
-        public void onWindowRectChanged(@NonNull WindowRect windowRect) {
+        public void onWindowRectChanged(@NonNull WindowRect newValue) {
             // no-op
         }
 
         @Override
-        public void onSystemGapsChanged(@Nullable SystemGaps systemGaps) {
+        public void onSystemGapsChanged(@Nullable SystemGaps newValue) {
             // no-op
         }
 
         @Override
-        public void onContentGapsChanged(@NonNull ContentGaps contentGaps) {
-            ViewabilityObserver.this.contentGaps = contentGaps;
+        public void onContentGapsChanged(@NonNull ContentGaps newValue) {
+            ViewabilityObserver.this.contentGaps = newValue;
         }
 
         @Override
-        public void onContentInDisplayChanged(@Nullable ContentRect contentInDisplay) {
-            ViewabilityObserver.this.contentInDisplay = contentInDisplay;
+        public void onContentInDisplayChanged(@Nullable ContentRect newValue) {
+            ViewabilityObserver.this.contentInDisplay = newValue;
         }
 
         @Override
-        public void onContentInWindowChanged(@Nullable ContentRect contentInWindow) {
+        public void onContentInWindowChanged(@Nullable ContentRect newValue) {
             // no-op
         }
 
@@ -68,17 +70,17 @@ public class ViewabilityObserver implements Closeable {
     private final ViewAreaObserver.IListener viewListener = new ViewAreaObserver.IListener() {
 
         @Override
-        public void onViewRectInContentChanged(@Nullable ViewRect newValue) {
+        public void onViewRectInContentChanged(@Nullable WidgetRectInContent newValue) {
             // no-op
         }
 
         @Override
-        public void onViewRectInWindowChanged(@Nullable ViewRect newValue) {
-            ViewabilityObserver.this.viewRectInWindow = newValue;
+        public void onViewRectInWindowChanged(@Nullable WidgetRectInWindow newValue) {
+            ViewabilityObserver.this.widgetRectInWindow = newValue;
         }
 
         @Override
-        public void onViewRectInDisplayChanged(@NonNull ViewRect newValue) {
+        public void onViewRectInDisplayChanged(@NonNull WidgetRectInDisplay newValue) {
             // no-op
         }
 
@@ -143,7 +145,7 @@ public class ViewabilityObserver implements Closeable {
     private ContentRect contentInDisplay;
 
     @Nullable
-    private ViewRect viewRectInWindow;
+    private WidgetRectInWindow widgetRectInWindow;
 
     public ViewabilityObserver(
             @NonNull View view,
@@ -156,27 +158,27 @@ public class ViewabilityObserver implements Closeable {
     }
 
     @Nullable
-    private RealViewRect lastRealViewRect;
+    private RealWidgetRect lastRealWidgetRect;
 
     private void onLayout() {
-        RealViewRect newRealViewRect;
-        if (contentInDisplay == null || displaySize == null || contentGaps == null || viewRectInWindow == null) {
-            newRealViewRect = null;
+        RealWidgetRect newRealWidgetRect;
+        if (contentInDisplay == null || displaySize == null || contentGaps == null || widgetRectInWindow == null) {
+            newRealWidgetRect = null;
         } else {
-            newRealViewRect = viewabilityCalc.getRealViewRect(
+            newRealWidgetRect = viewabilityCalc.getRealViewRect(
                     contentInDisplay,
                     displaySize,
                     contentGaps,
-                    viewRectInWindow
+                    widgetRectInWindow
             );
         }
 
         try {
-            if (!ObjectsCompat.equals(lastRealViewRect, newRealViewRect)) {
-                listener.onRealViewRectChanged(newRealViewRect);
+            if (!ObjectsCompat.equals(lastRealWidgetRect, newRealWidgetRect)) {
+                listener.onRealViewRectChanged(newRealWidgetRect);
             }
         } finally {
-            lastRealViewRect = newRealViewRect;
+            lastRealWidgetRect = newRealWidgetRect;
         }
     }
 
@@ -201,7 +203,7 @@ public class ViewabilityObserver implements Closeable {
 
     public interface IListener {
 
-        void onRealViewRectChanged(@Nullable RealViewRect newValue);
+        void onRealViewRectChanged(@Nullable RealWidgetRect newValue);
 
     }
 

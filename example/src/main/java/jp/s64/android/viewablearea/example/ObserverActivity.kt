@@ -7,17 +7,14 @@ import android.widget.TextView
 import jp.s64.android.viewability.core.dimension.DisplayDimension
 import jp.s64.android.viewability.core.gaps.ContentGaps
 import jp.s64.android.viewability.core.gaps.SystemGaps
-import jp.s64.android.viewability.core.rect.ContentRect
-import jp.s64.android.viewability.core.rect.RealViewRect
-import jp.s64.android.viewability.core.rect.ViewRect
-import jp.s64.android.viewability.core.rect.WindowRect
+import jp.s64.android.viewability.core.rect.*
 import jp.s64.android.viewability.core.viewability.ContentViewability
 import jp.s64.android.viewability.core.viewability.WindowViewability
 import jp.s64.android.viewablearea.*
 
 class ObserverActivity : AppCompatActivity() {
 
-    private val displaySize by lazy { findViewById<TextView>(R.id.displaySize) }
+    private val displayDimension by lazy { findViewById<TextView>(R.id.displayDimension) }
     private val windowSize by lazy { findViewById<TextView>(R.id.windowSize) }
     private val systemGaps by lazy { findViewById<TextView>(R.id.systemGaps) }
     private val contentGaps by lazy { findViewById<TextView>(R.id.contentGaps) }
@@ -33,7 +30,7 @@ class ObserverActivity : AppCompatActivity() {
     private val windowViewability by lazy { findViewById<TextView>(R.id.windowViewability) }
     private val contentViewability by lazy { findViewById<TextView>(R.id.contentViewability) }
 
-    private val realViewRect by lazy { findViewById<TextView>(R.id.realViewRect) }
+    private val realWidgetRect by lazy { findViewById<TextView>(R.id.realWidgetRect) }
 
     private lateinit var appAreaObserver: AppAreaObserver
     private lateinit var viewAreaObserver: ViewAreaObserver
@@ -51,27 +48,27 @@ class ObserverActivity : AppCompatActivity() {
             object : AppAreaObserver.IListener {
 
                 override fun onDisplaySizeChanged(newValue: DisplayDimension?) {
-                    this@ObserverActivity.displaySize.text = newValue.toString()
+                    this@ObserverActivity.displayDimension.text = newValue.toString()
                 }
 
-                override fun onWindowRectChanged(windowRect: WindowRect) {
-                    this@ObserverActivity.windowSize.text = windowRect.toString()
+                override fun onWindowRectChanged(newValue: WindowRect) {
+                    this@ObserverActivity.windowSize.text = newValue.toString()
                 }
 
-                override fun onSystemGapsChanged(systemGaps: SystemGaps?) {
-                    this@ObserverActivity.systemGaps.text = systemGaps.toString()
+                override fun onSystemGapsChanged(newValue: SystemGaps?) {
+                    this@ObserverActivity.systemGaps.text = newValue.toString()
                 }
 
-                override fun onContentGapsChanged(contentGaps: ContentGaps) {
-                    this@ObserverActivity.contentGaps.text = contentGaps.toString()
+                override fun onContentGapsChanged(newValue: ContentGaps) {
+                    this@ObserverActivity.contentGaps.text = newValue.toString()
                 }
 
-                override fun onContentInDisplayChanged(contentInDisplay: ContentRect?) {
-                    this@ObserverActivity.contentInDisplay.text = contentInDisplay.toString()
+                override fun onContentInDisplayChanged(newValue: ContentRect?) {
+                    this@ObserverActivity.contentInDisplay.text = newValue.toString()
                 }
 
-                override fun onContentInWindowChanged(contentInWindow: ContentRect?) {
-                    this@ObserverActivity.contentInWindow.text = contentInWindow.toString()
+                override fun onContentInWindowChanged(newValue: ContentRect?) {
+                    this@ObserverActivity.contentInWindow.text = newValue.toString()
                 }
 
             }
@@ -81,15 +78,15 @@ class ObserverActivity : AppCompatActivity() {
             targetView,
             object : ViewAreaObserver.IListener {
 
-                override fun onViewRectInContentChanged(newValue: ViewRect?) {
+                override fun onViewRectInContentChanged(newValue: WidgetRectInContent?) {
                     this@ObserverActivity.targetInContent.text = newValue.toString()
                 }
 
-                override fun onViewRectInWindowChanged(newValue: ViewRect?) {
+                override fun onViewRectInWindowChanged(newValue: WidgetRectInWindow?) {
                     this@ObserverActivity.targetInWindow.text = newValue.toString()
                 }
 
-                override fun onViewRectInDisplayChanged(newValue: ViewRect) {
+                override fun onViewRectInDisplayChanged(newValue: WidgetRectInDisplay) {
                     this@ObserverActivity.targetInDisplay.text = newValue.toString()
                 }
 
@@ -115,8 +112,8 @@ class ObserverActivity : AppCompatActivity() {
             targetView,
             object : ViewabilityObserver.IListener {
 
-                override fun onRealViewRectChanged(newValue: RealViewRect?) {
-                    this@ObserverActivity.realViewRect.text = newValue.toString()
+                override fun onRealViewRectChanged(newValue: RealWidgetRect?) {
+                    this@ObserverActivity.realWidgetRect.text = newValue.toString()
                 }
 
             }

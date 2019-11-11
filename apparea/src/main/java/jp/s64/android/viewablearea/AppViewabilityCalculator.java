@@ -52,7 +52,7 @@ public class AppViewabilityCalculator {
     ) {
         return getWindowViewability(
                 areaCalculator.getWindowRect(decorView),
-                areaCalculator.getDisplaySize(display)
+                areaCalculator.getDisplayDimension(display)
         );
     }
 
@@ -74,7 +74,7 @@ public class AppViewabilityCalculator {
     @Nullable
     public ContentViewability getContentViewability() {
         ContentRect contentInDisplay = areaCalculator.getContentInDisplay();
-        DisplayDimension displaySize = areaCalculator.getDisplaySize();
+        DisplayDimension displaySize = areaCalculator.getDisplayDimension();
 
         if (contentInDisplay == null || displaySize == null) {
             return null;

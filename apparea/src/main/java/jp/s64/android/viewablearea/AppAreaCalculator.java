@@ -27,8 +27,8 @@ public class AppAreaCalculator {
         this.activity = activity;
     }
 
-    public AppAreaCalculator(@NonNull View view) {
-        this(ViewUtils.requireActivity(view));
+    public AppAreaCalculator(@NonNull View widget) {
+        this(ViewUtils.requireActivity(widget));
     }
 
     @NonNull
@@ -57,16 +57,16 @@ public class AppAreaCalculator {
     }
 
     @Nullable
-    public DisplayDimension getDisplaySize() {
+    public DisplayDimension getDisplayDimension() {
         Display display = getCurrentDisplay();
         if (display == null) {
             return null;
         }
-        return getDisplaySize(display);
+        return getDisplayDimension(display);
     }
 
     @NonNull
-    public DisplayDimension getDisplaySize(@NonNull Display display) {
+    public DisplayDimension getDisplayDimension(@NonNull Display display) {
         final DisplayMetrics metrics = new DisplayMetrics();
 
         if (Build.VERSION.SDK_INT >= 17) {
@@ -119,7 +119,7 @@ public class AppAreaCalculator {
 
     @Nullable
     public SystemGaps getSystemGaps() {
-        DisplayDimension display = getDisplaySize();
+        DisplayDimension display = getDisplayDimension();
         WindowRect window = getWindowRect();
 
         if (display == null) {
@@ -156,7 +156,7 @@ public class AppAreaCalculator {
 
     @Nullable
     public ContentRect getContentInDisplay() {
-        DisplayDimension display = getDisplaySize();
+        DisplayDimension display = getDisplayDimension();
         SystemGaps systemGaps = getSystemGaps();
         ContentGaps contentGaps = getContentGaps();
 

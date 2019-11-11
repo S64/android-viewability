@@ -26,7 +26,7 @@
                 android:text="Display: " />
 
             <TextView
-                android:id="@+id/displaySize"
+                android:id="@+id/displayDimension"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="AAAxBBB" />
@@ -240,7 +240,7 @@
                     android:text="RealViewRect: " />
 
                 <TextView
-                    android:id="@+id/realViewRect"
+                    android:id="@+id/realWidgetRect"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:text="AAAxBBB" />

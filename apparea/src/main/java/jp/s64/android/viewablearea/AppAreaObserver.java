@@ -116,22 +116,22 @@ public class AppAreaObserver implements Closeable {
     }
 
     public AppAreaObserver(
-            @NonNull View view,
+            @NonNull View widget,
             @NonNull IListener listener,
             @Nullable IEventListener events
     ) {
         this(
-                ViewUtils.requireActivity(view),
+                ViewUtils.requireActivity(widget),
                 listener,
                 events
         );
     }
 
     public AppAreaObserver(
-            @NonNull View view,
+            @NonNull View widget,
             @NonNull IListener listener
     ) {
-        this(view, listener, null);
+        this(widget, listener, null);
     }
 
     public AppAreaObserver(
@@ -181,7 +181,7 @@ public class AppAreaObserver implements Closeable {
             contentRect = calc.getContentSize(contentView);
         }
 
-        DisplayDimension displaySize = display != null ? calc.getDisplaySize(display) : null;
+        DisplayDimension displaySize = display != null ? calc.getDisplayDimension(display) : null;
         try {
             if (!ObjectsCompat.equals(lastDisplaySize, displaySize)) {
                 listener.onDisplaySizeChanged(displaySize);
@@ -258,15 +258,15 @@ public class AppAreaObserver implements Closeable {
 
         void onDisplaySizeChanged(@Nullable DisplayDimension newValue);
 
-        void onWindowRectChanged(@NonNull WindowRect windowRect);
+        void onWindowRectChanged(@NonNull WindowRect newValue);
 
-        void onSystemGapsChanged(@Nullable SystemGaps systemGaps);
+        void onSystemGapsChanged(@Nullable SystemGaps newValue);
 
-        void onContentGapsChanged(@NonNull ContentGaps contentGaps);
+        void onContentGapsChanged(@NonNull ContentGaps newValue);
 
-        void onContentInDisplayChanged(@Nullable ContentRect contentInDisplay);
+        void onContentInDisplayChanged(@Nullable ContentRect newValue);
 
-        void onContentInWindowChanged(@Nullable ContentRect contentInWindow);
+        void onContentInWindowChanged(@Nullable ContentRect newValue);
 
     }
 

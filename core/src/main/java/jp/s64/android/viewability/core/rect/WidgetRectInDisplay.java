@@ -3,15 +3,15 @@ package jp.s64.android.viewability.core.rect;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 
-public class ViewRect extends BaseRect {
+public class WidgetRectInDisplay extends BaseRect {
 
-    public ViewRect(
+    public WidgetRectInDisplay(
             @NonNull Rect rect
     ) {
         super(rect);
     }
 
-    public ViewRect(
+    public WidgetRectInDisplay(
             int leftInPixels,
             int topInPixels,
             int rightInPixels,

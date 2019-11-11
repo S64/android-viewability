@@ -41,31 +41,31 @@ public class AppViewabilityObserver implements Closeable {
 
         @Override
         public void onDisplaySizeChanged(@Nullable DisplayDimension newValue) {
-            AppViewabilityObserver.this.displaySize = newValue;
+            AppViewabilityObserver.this.displayDimension = newValue;
         }
 
         @Override
-        public void onWindowRectChanged(@NonNull WindowRect windowRect) {
-            AppViewabilityObserver.this.windowRect = windowRect;
+        public void onWindowRectChanged(@NonNull WindowRect newValue) {
+            AppViewabilityObserver.this.windowRect = newValue;
         }
 
         @Override
-        public void onSystemGapsChanged(@Nullable SystemGaps systemGaps) {
+        public void onSystemGapsChanged(@Nullable SystemGaps newValue) {
             // no-op
         }
 
         @Override
-        public void onContentGapsChanged(@NonNull ContentGaps contentGaps) {
+        public void onContentGapsChanged(@NonNull ContentGaps newValue) {
             // no-op
         }
 
         @Override
-        public void onContentInDisplayChanged(@Nullable ContentRect contentInDisplay) {
-            AppViewabilityObserver.this.contentInDisplay = contentInDisplay;
+        public void onContentInDisplayChanged(@Nullable ContentRect newValue) {
+            AppViewabilityObserver.this.contentInDisplay = newValue;
         }
 
         @Override
-        public void onContentInWindowChanged(@Nullable ContentRect contentInWindow) {
+        public void onContentInWindowChanged(@Nullable ContentRect newValue) {
             // no-op
         }
 
@@ -123,10 +123,10 @@ public class AppViewabilityObserver implements Closeable {
         );
     }
 
-    public AppViewabilityObserver(@NonNull View view, @NonNull IListener listener) {
+    public AppViewabilityObserver(@NonNull View widget, @NonNull IListener listener) {
         this(
                 new AppViewabilityCalculator(
-                        new AppAreaCalculator(view)
+                        new AppAreaCalculator(widget)
                 ),
                 listener
         );
@@ -136,7 +136,7 @@ public class AppViewabilityObserver implements Closeable {
     private WindowRect windowRect;
 
     @Nullable
-    private DisplayDimension displaySize;
+    private DisplayDimension displayDimension;
 
     @Nullable
     private ContentRect contentInDisplay;
@@ -164,8 +164,8 @@ public class AppViewabilityObserver implements Closeable {
         {
             WindowViewability newWindowViewability;
 
-            if (windowRect != null && displaySize != null) {
-                newWindowViewability = viewabilityCalc.getWindowViewability(windowRect, displaySize);
+            if (windowRect != null && displayDimension != null) {
+                newWindowViewability = viewabilityCalc.getWindowViewability(windowRect, displayDimension);
             } else {
                 newWindowViewability = null;
             }
@@ -183,8 +183,8 @@ public class AppViewabilityObserver implements Closeable {
         {
             ContentViewability newContentViewability;
 
-            if (contentInDisplay != null && displaySize != null) {
-                newContentViewability = viewabilityCalc.getContentViewability(contentInDisplay, displaySize);
+            if (contentInDisplay != null && displayDimension != null) {
+                newContentViewability = viewabilityCalc.getContentViewability(contentInDisplay, displayDimension);
             } else {
                 newContentViewability = null;
             }

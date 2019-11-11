@@ -11,14 +11,14 @@ public class ContentViewability {
     private final ContentRect contentInDisplay;
 
     @NonNull
-    private final DisplayDimension displaySize;
+    private final DisplayDimension displayDimension;
 
     public ContentViewability(
             @NonNull ContentRect contentInDisplay,
-            @NonNull DisplayDimension displaySize
+            @NonNull DisplayDimension displayDimension
     ) {
         this.contentInDisplay = contentInDisplay;
-        this.displaySize = displaySize;
+        this.displayDimension = displayDimension;
     }
 
     public int getViewableLeftInDisplay() {
@@ -30,12 +30,12 @@ public class ContentViewability {
     }
 
     public int getViewableRightInDisplay() {
-        int displayWidth = displaySize.getWidthInPixels();
+        int displayWidth = displayDimension.getWidthInPixels();
         return contentInDisplay.right > displayWidth ? displayWidth : contentInDisplay.right;
     }
 
     public int getViewableBottomInDisplay() {
-        int displayHeight = displaySize.getHeightInPixels();
+        int displayHeight = displayDimension.getHeightInPixels();
         return contentInDisplay.bottom > displayHeight ? displayHeight : contentInDisplay.bottom;
     }
 
@@ -62,7 +62,7 @@ public class ContentViewability {
     }
 
     public int getInvisibleWidthRightInDisplay() {
-        int diff = contentInDisplay.right - displaySize.getWidthInPixels();
+        int diff = contentInDisplay.right - displayDimension.getWidthInPixels();
         if (diff <= 0) {
             return 0;
         }
@@ -70,7 +70,7 @@ public class ContentViewability {
     }
 
     public int getInvisibleWidthBottomInDisplay() {
-        int diff = contentInDisplay.bottom - displaySize.getHeightInPixels();
+        int diff = contentInDisplay.bottom - displayDimension.getHeightInPixels();
         if (diff <= 0) {
             return 0;
         }

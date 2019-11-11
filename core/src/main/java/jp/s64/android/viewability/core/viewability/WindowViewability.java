@@ -11,14 +11,14 @@ public class WindowViewability {
     private final WindowRect actualWindow;
 
     @NonNull
-    private final DisplayDimension displaySize;
+    private final DisplayDimension displayDimension;
 
     public WindowViewability(
             @NonNull WindowRect actualWindow,
-            @NonNull DisplayDimension displaySize
+            @NonNull DisplayDimension displayDimension
     ) {
         this.actualWindow = actualWindow;
-        this.displaySize = displaySize;
+        this.displayDimension = displayDimension;
     }
 
     public int getViewableLeft() {
@@ -30,12 +30,12 @@ public class WindowViewability {
     }
 
     public int getViewableRight() {
-        int displayWidth = displaySize.getWidthInPixels();
+        int displayWidth = displayDimension.getWidthInPixels();
         return actualWindow.right > displayWidth ? displayWidth : actualWindow.right;
     }
 
     public int getViewableBottom() {
-        int displayHeight = displaySize.getHeightInPixels();
+        int displayHeight = displayDimension.getHeightInPixels();
         return actualWindow.bottom > displayHeight ? displayHeight : actualWindow.bottom;
     }
 
@@ -62,7 +62,7 @@ public class WindowViewability {
     }
 
     public int getInvisibleWidthRight() {
-        int diff = actualWindow.right - displaySize.getWidthInPixels();
+        int diff = actualWindow.right - displayDimension.getWidthInPixels();
         if (diff <= 0) {
             return 0;
         }
@@ -70,7 +70,7 @@ public class WindowViewability {
     }
 
     public int getInvisibleWidthBottom() {
-        int diff = actualWindow.bottom - displaySize.getHeightInPixels();
+        int diff = actualWindow.bottom - displayDimension.getHeightInPixels();
         if (diff <= 0) {
             return 0;
         }
