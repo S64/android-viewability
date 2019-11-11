@@ -5,6 +5,7 @@ import android.app.Application;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.util.ObjectsCompat;
 import android.view.View;
 
 import java.io.Closeable;
@@ -162,7 +163,7 @@ public class AppViewabilityObserver implements Closeable {
             }
 
             try {
-                if (!Utils.objectsEquals(lastWindowViewability, newWindowViewability)) {
+                if (!ObjectsCompat.equals(lastWindowViewability, newWindowViewability)) {
                     listener.onWindowViewabilityChanged(
                             newWindowViewability
                     );
@@ -181,7 +182,7 @@ public class AppViewabilityObserver implements Closeable {
             }
 
             try {
-                if (!Utils.objectsEquals(lastContentViewability, newContentViewability)) {
+                if (!ObjectsCompat.equals(lastContentViewability, newContentViewability)) {
                     listener.onContentViewabilityChanged(
                             newContentViewability
                     );
