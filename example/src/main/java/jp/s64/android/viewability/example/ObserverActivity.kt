@@ -1,4 +1,4 @@
-package jp.s64.android.viewablearea.example
+package jp.s64.android.viewability.example
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
