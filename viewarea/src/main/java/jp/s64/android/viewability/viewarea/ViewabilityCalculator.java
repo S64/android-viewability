@@ -1,9 +1,11 @@
-package jp.s64.android.viewablearea;
+package jp.s64.android.viewability.viewarea;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import jp.s64.android.viewability.ViewUtils;
 import jp.s64.android.viewability.core.dimension.DisplayDimension;
 import jp.s64.android.viewability.core.gaps.ContentGaps;
 import jp.s64.android.viewability.core.rect.ContentRect;
@@ -13,6 +15,8 @@ import jp.s64.android.viewability.core.rect.WidgetRectInDisplay;
 import jp.s64.android.viewability.core.rect.WidgetRectInWindow;
 import jp.s64.android.viewability.core.viewability.ContentViewability;
 import jp.s64.android.viewability.core.viewability.Viewability;
+import jp.s64.android.viewability.apparea.AppAreaCalculator;
+import jp.s64.android.viewability.apparea.AppViewabilityCalculator;
 
 public class ViewabilityCalculator {
 
@@ -98,6 +102,10 @@ public class ViewabilityCalculator {
     }
 
     // endregion
+
+    public Activity requireActivity() {
+        return ViewUtils.requireActivity(view);
+    }
 
     // region ViewabilityCalculator#getViewability
 

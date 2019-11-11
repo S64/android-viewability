@@ -1,4 +1,4 @@
-package jp.s64.android.viewablearea;
+package jp.s64.android.viewability.apparea;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -6,6 +6,7 @@ import android.view.Display;
 import android.view.View;
 import android.view.Window;
 
+import jp.s64.android.viewability.apparea.AppAreaCalculator;
 import jp.s64.android.viewability.core.dimension.DisplayDimension;
 import jp.s64.android.viewability.core.rect.ContentRect;
 import jp.s64.android.viewability.core.rect.WindowRect;
@@ -15,7 +16,7 @@ import jp.s64.android.viewability.core.viewability.WindowViewability;
 public class AppViewabilityCalculator {
 
     @NonNull
-    final AppAreaCalculator areaCalculator;
+    public final AppAreaCalculator areaCalculator;
 
     public AppViewabilityCalculator(
             @NonNull AppAreaCalculator appAreaCalculator

@@ -1,4 +1,4 @@
-package jp.s64.android.viewablearea;
+package jp.s64.android.viewability.viewarea;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
@@ -11,6 +11,7 @@ import jp.s64.android.viewability.core.gaps.SystemGaps;
 import jp.s64.android.viewability.core.rect.WidgetRectInContent;
 import jp.s64.android.viewability.core.rect.WidgetRectInDisplay;
 import jp.s64.android.viewability.core.rect.WidgetRectInWindow;
+import jp.s64.android.viewability.apparea.AppAreaCalculator;
 
 public class ViewAreaCalculator {
 

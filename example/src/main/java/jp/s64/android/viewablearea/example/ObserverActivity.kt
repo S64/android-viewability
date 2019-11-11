@@ -4,13 +4,16 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.TextView
+import jp.s64.android.viewability.apparea.AppAreaObserver
+import jp.s64.android.viewability.apparea.AppViewabilityObserver
+import jp.s64.android.viewability.viewarea.ViewAreaObserver
+import jp.s64.android.viewability.viewarea.ViewabilityObserver
 import jp.s64.android.viewability.core.dimension.DisplayDimension
 import jp.s64.android.viewability.core.gaps.ContentGaps
 import jp.s64.android.viewability.core.gaps.SystemGaps
 import jp.s64.android.viewability.core.rect.*
 import jp.s64.android.viewability.core.viewability.ContentViewability
 import jp.s64.android.viewability.core.viewability.WindowViewability
-import jp.s64.android.viewablearea.*
 
 class ObserverActivity : AppCompatActivity() {
 

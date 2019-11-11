@@ -1,4 +1,4 @@
-package jp.s64.android.viewablearea;
+package jp.s64.android.viewability.apparea;
 
 import android.app.Activity;
 import android.graphics.Rect;
@@ -91,12 +91,12 @@ public class AppAreaCalculator {
     }
 
     @NonNull
-    ContentRect getContentSize() {
+    public ContentRect getContentSize() {
         return getContentSize(getContentView());
     }
 
     @NonNull
-    ContentRect getContentSize(@NonNull View contentView) {
+    public ContentRect getContentSize(@NonNull View contentView) {
         int[] loc = new int[2];
         contentView.getLocationOnScreen(loc);
         return new ContentRect(
@@ -108,12 +108,12 @@ public class AppAreaCalculator {
     }
 
     @NonNull
-    View getContentView(@NonNull View decorView) {
+    public View getContentView(@NonNull View decorView) {
         return decorView.findViewById(android.R.id.content);
     }
 
     @NonNull
-    View getContentView() {
+    public View getContentView() {
         return getContentView(getDecorView());
     }
 
