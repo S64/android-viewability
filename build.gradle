@@ -16,20 +16,14 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven {
-            credentials {
-                username = 'S64'
-                password = 'ead65af21fc5c7476543d83c6f6d1928961b1fcd'
-            }
-            url 'https://maven.pkg.github.com/S64/android-viewability'
-        }
+        maven { url 'https://maven.pkg.github.com/S64/android-viewability' }
     }
     publishing {
         repositories {
             maven {
                 credentials {
                     username = 'S64'
-                    password = 'ead65af21fc5c7476543d83c6f6d1928961b1fcd'
+                    password = 'TODO'
                 }
                 url = 'https://maven.pkg.github.com/S64/android-viewability'
             }
