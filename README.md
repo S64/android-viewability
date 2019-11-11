@@ -1,6 +1,8 @@
 # android-viewability
 
-Viewability calculator and observer for Android.
+Viewability calculator and observer for Android with free-form window support.
+
+![](./demo.gif)
 
 ## Usages
 
