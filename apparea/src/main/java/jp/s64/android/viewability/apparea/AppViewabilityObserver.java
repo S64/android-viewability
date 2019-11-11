@@ -86,12 +86,12 @@ public class AppViewabilityObserver implements Closeable {
 
         @Override
         public void onActivityResumed(@NonNull Activity activity) {
-            // no-op
+            AppViewabilityObserver.this.onLayout();
         }
 
         @Override
         public void onActivityPaused(@NonNull Activity activity) {
-            // no-op
+            AppViewabilityObserver.this.onLayout();
         }
 
         @Override
@@ -141,6 +141,9 @@ public class AppViewabilityObserver implements Closeable {
     @Nullable
     private ContentRect contentInDisplay;
 
+    @Nullable
+    private Boolean lastIsPaused;
+
     public AppViewabilityObserver(
             @NonNull AppViewabilityCalculator appViewabilityCalculator,
             @NonNull IListener listener
@@ -152,6 +155,7 @@ public class AppViewabilityObserver implements Closeable {
                 appAreaEvents
         );
         this.listener = listener;
+        start();
     }
 
     @Nullable
@@ -199,6 +203,17 @@ public class AppViewabilityObserver implements Closeable {
                 lastContentViewability = newContentViewability;
             }
         }
+        {
+            boolean newIsPaused = viewabilityCalc.isPaused();
+
+            try {
+                if (!ObjectsCompat.equals(lastIsPaused, newIsPaused)) {
+                    listener.onIsPausedChanged(newIsPaused);
+                }
+            } finally {
+                lastIsPaused = newIsPaused;
+            }
+        }
     }
 
     private void start() {
@@ -223,6 +238,7 @@ public class AppViewabilityObserver implements Closeable {
 
         void onWindowViewabilityChanged(@Nullable WindowViewability newValue);
         void onContentViewabilityChanged(@Nullable ContentViewability newValue);
+        void onIsPausedChanged(boolean newValue);
 
     }
 

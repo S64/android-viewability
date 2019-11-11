@@ -112,17 +112,20 @@ public class ViewabilityCalculator {
     @Nullable
     public Viewability getViewability() {
         RealWidgetRect realWidgetRect = getRealViewRect();
-        return realWidgetRect != null ? getViewability(realWidgetRect) : null;
+        boolean isPaused = appCalc.isPaused();
+        return realWidgetRect != null ? getViewability(realWidgetRect, isPaused) : null;
     }
 
     @NonNull
     public Viewability getViewability(
-            @NonNull RealWidgetRect realWidgetRect
+            @NonNull RealWidgetRect realWidgetRect,
+            boolean isPaused
     ) {
-        if (realWidgetRect.getViewability() < 0) {
-            return new Viewability(0);
-        }
-        return new Viewability(realWidgetRect.getViewability()); // TODO
+        return new Viewability(
+                realWidgetRect.getViewability(),
+                isPaused,
+                view.isShown()
+        );
     }
 
     // endregion

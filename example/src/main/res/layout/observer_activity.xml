@@ -18,162 +18,169 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Display: " />
-
-            <TextView
-                android:id="@+id/displayDimension"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="AAAxBBB" />
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Display: " />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/displayDimension"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="AAAxBBB" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Window: " />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/windowSize"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="AAAxBBB" />
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Window: " />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/windowSize"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="AAAxBBB" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="SystemGaps: " />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/systemGaps"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="AAAxBBB" />
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SystemGaps: " />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/systemGaps"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="AAAxBBB" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ContentGaps: " />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/contentGaps"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="AAAxBBB" />
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ContentGaps: " />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/contentGaps"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="AAAxBBB" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ContentInDisplay: " />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/contentInDisplay"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="AAAxBBB" />
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ContentInDisplay: " />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/contentInDisplay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="AAAxBBB" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ContentInWindow: " />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/contentInWindow"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="AAAxBBB" />
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ContentInWindow: " />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/contentInWindow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="AAAxBBB" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TargetInContent: " />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/targetInContent"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="AAAxBBB" />
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TargetInContent: " />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/targetInContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="AAAxBBB" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TargetInWindow: " />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/targetInWindow"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="AAAxBBB" />
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TargetInWindow: " />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/targetInWindow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="AAAxBBB" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TargetInDisplay: " />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/targetInDisplay"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="AAAxBBB" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TargetInDisplay: " />
+
+                <TextView
+                    android:id="@+id/targetInDisplay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="AAAxBBB" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -220,6 +227,24 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="isPaused: " />
+
+                <TextView
+                    android:id="@+id/isPaused"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="AAAxBBB" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -241,6 +266,24 @@
 
                 <TextView
                     android:id="@+id/realWidgetRect"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="AAAxBBB" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Viewability: " />
+
+                <TextView
+                    android:id="@+id/viewability"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:text="AAAxBBB" />

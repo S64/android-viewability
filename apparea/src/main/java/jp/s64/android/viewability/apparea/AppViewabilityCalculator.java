@@ -1,7 +1,9 @@
 package jp.s64.android.viewability.apparea;
 
+import android.arch.lifecycle.Lifecycle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
@@ -96,6 +98,21 @@ public class AppViewabilityCalculator {
                 contentInDisplay,
                 displaySize
         );
+    }
+
+    // endregion
+
+    // region
+
+    public boolean isPaused() {
+        if (areaCalculator.activity instanceof AppCompatActivity) {
+            return !((AppCompatActivity) areaCalculator.activity)
+                    .getLifecycle()
+                    .getCurrentState()
+                    .isAtLeast(Lifecycle.State.RESUMED);
+        } else {
+            return false;
+        }
     }
 
     // endregion

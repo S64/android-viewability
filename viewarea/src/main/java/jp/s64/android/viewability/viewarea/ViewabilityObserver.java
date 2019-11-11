@@ -10,6 +10,7 @@ import android.view.View;
 
 import java.io.Closeable;
 
+import jp.s64.android.viewability.apparea.AppViewabilityObserver;
 import jp.s64.android.viewability.core.dimension.DisplayDimension;
 import jp.s64.android.viewability.core.gaps.ContentGaps;
 import jp.s64.android.viewability.core.gaps.SystemGaps;
@@ -20,6 +21,9 @@ import jp.s64.android.viewability.core.rect.WidgetRectInDisplay;
 import jp.s64.android.viewability.core.rect.WidgetRectInWindow;
 import jp.s64.android.viewability.core.rect.WindowRect;
 import jp.s64.android.viewability.apparea.AppAreaObserver;
+import jp.s64.android.viewability.core.viewability.ContentViewability;
+import jp.s64.android.viewability.core.viewability.Viewability;
+import jp.s64.android.viewability.core.viewability.WindowViewability;
 
 public class ViewabilityObserver implements Closeable {
 
@@ -28,6 +32,9 @@ public class ViewabilityObserver implements Closeable {
 
     @NonNull
     private final ViewAreaObserver viewObserver;
+
+    @NonNull
+    private final AppViewabilityObserver appViewabilityObserver;
 
     private final ViewabilityCalculator viewabilityCalc;
 
@@ -136,6 +143,26 @@ public class ViewabilityObserver implements Closeable {
 
     };
 
+    @NonNull
+    private final AppViewabilityObserver.IListener appViewabilityListener = new AppViewabilityObserver.IListener() {
+
+        @Override
+        public void onWindowViewabilityChanged(@Nullable WindowViewability newValue) {
+            // no-op
+        }
+
+        @Override
+        public void onContentViewabilityChanged(@Nullable ContentViewability newValue) {
+            // no-op
+        }
+
+        @Override
+        public void onIsPausedChanged(boolean newValue) {
+            ViewabilityObserver.this.isPaused = newValue;
+        }
+
+    };
+
     @Nullable
     private DisplayDimension displaySize;
 
@@ -148,6 +175,9 @@ public class ViewabilityObserver implements Closeable {
     @Nullable
     private WidgetRectInWindow widgetRectInWindow;
 
+    @Nullable
+    private Boolean isPaused;
+
     public ViewabilityObserver(
             @NonNull View view,
             @NonNull IListener listener
@@ -155,31 +185,49 @@ public class ViewabilityObserver implements Closeable {
         this.viewabilityCalc = new ViewabilityCalculator(view);
         this.appObserver = new AppAreaObserver(view, appListener);
         this.viewObserver = new ViewAreaObserver(view, viewListener, events);
+        this.appViewabilityObserver = new AppViewabilityObserver(view, appViewabilityListener);
         this.listener = listener;
     }
 
     @Nullable
     private RealWidgetRect lastRealWidgetRect;
 
+    @Nullable
+    private Viewability lastViewability;
+
     private void onLayout() {
         RealWidgetRect newRealWidgetRect;
-        if (contentInDisplay == null || displaySize == null || contentGaps == null || widgetRectInWindow == null) {
-            newRealWidgetRect = null;
-        } else {
-            newRealWidgetRect = viewabilityCalc.getRealViewRect(
-                    contentInDisplay,
-                    displaySize,
-                    contentGaps,
-                    widgetRectInWindow
-            );
-        }
-
-        try {
-            if (!ObjectsCompat.equals(lastRealWidgetRect, newRealWidgetRect)) {
-                listener.onRealViewRectChanged(newRealWidgetRect);
+        {
+            if (contentInDisplay == null || displaySize == null || contentGaps == null || widgetRectInWindow == null) {
+                newRealWidgetRect = null;
+            } else {
+                newRealWidgetRect = viewabilityCalc.getRealViewRect(
+                        contentInDisplay,
+                        displaySize,
+                        contentGaps,
+                        widgetRectInWindow
+                );
             }
-        } finally {
-            lastRealWidgetRect = newRealWidgetRect;
+
+            try {
+                if (!ObjectsCompat.equals(lastRealWidgetRect, newRealWidgetRect)) {
+                    listener.onRealViewRectChanged(newRealWidgetRect);
+                }
+            } finally {
+                lastRealWidgetRect = newRealWidgetRect;
+            }
+        }
+        {
+            Viewability newViewability
+                    = newRealWidgetRect != null && isPaused != null ? viewabilityCalc.getViewability(newRealWidgetRect, isPaused) : null;
+
+            try {
+                if (!ObjectsCompat.equals(lastViewability, newViewability)) {
+                    listener.onViewabilityChanged(newViewability);
+                }
+            } finally {
+                lastViewability = newViewability;
+            }
         }
     }
 
@@ -192,6 +240,7 @@ public class ViewabilityObserver implements Closeable {
     public void close() {
         appObserver.close();
         viewObserver.close();
+        appViewabilityObserver.close();
         viewabilityCalc.requireActivity().getApplication()
                 .unregisterActivityLifecycleCallbacks(lifecycleCallbacks);
     }
@@ -205,6 +254,7 @@ public class ViewabilityObserver implements Closeable {
     public interface IListener {
 
         void onRealViewRectChanged(@Nullable RealWidgetRect newValue);
+        void onViewabilityChanged(@Nullable Viewability newValue);
 
     }
 
