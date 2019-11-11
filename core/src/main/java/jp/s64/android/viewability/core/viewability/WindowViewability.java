@@ -1,6 +1,9 @@
 package jp.s64.android.viewability.core.viewability;
 
 import android.support.annotation.NonNull;
+import android.support.v4.util.ObjectsCompat;
+
+import java.util.Objects;
 
 import jp.s64.android.viewability.core.dimension.DisplayDimension;
 import jp.s64.android.viewability.core.rect.WindowRect;
@@ -111,6 +114,20 @@ public class WindowViewability {
                 .append("]")
                 .append(")")
                 .toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WindowViewability that = (WindowViewability) o;
+        return actualWindow.equals(that.actualWindow) &&
+                displayDimension.equals(that.displayDimension);
+    }
+
+    @Override
+    public int hashCode() {
+        return ObjectsCompat.hash(actualWindow, displayDimension);
     }
 
 }

@@ -12,4 +12,6 @@ public class Viewability {
         this.viewability = viewability;
     }
 
+    // TODO: equals & hashCode
+
 }

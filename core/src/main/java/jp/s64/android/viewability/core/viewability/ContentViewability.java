@@ -1,6 +1,7 @@
 package jp.s64.android.viewability.core.viewability;
 
 import android.support.annotation.NonNull;
+import android.support.v4.util.ObjectsCompat;
 
 import jp.s64.android.viewability.core.dimension.DisplayDimension;
 import jp.s64.android.viewability.core.rect.ContentRect;
@@ -117,6 +118,20 @@ public class ContentViewability {
                 .append("]")
                 .append(")")
                 .toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ContentViewability that = (ContentViewability) o;
+        return contentInDisplay.equals(that.contentInDisplay) &&
+                displayDimension.equals(that.displayDimension);
+    }
+
+    @Override
+    public int hashCode() {
+        return ObjectsCompat.hash(contentInDisplay, displayDimension);
     }
 
 }
