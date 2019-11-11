@@ -4,6 +4,15 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.TextView
+import jp.s64.android.viewability.core.dimension.DisplayDimension
+import jp.s64.android.viewability.core.gaps.ContentGaps
+import jp.s64.android.viewability.core.gaps.SystemGaps
+import jp.s64.android.viewability.core.rect.ContentRect
+import jp.s64.android.viewability.core.rect.RealViewRect
+import jp.s64.android.viewability.core.rect.ViewRect
+import jp.s64.android.viewability.core.rect.WindowRect
+import jp.s64.android.viewability.core.viewability.ContentViewability
+import jp.s64.android.viewability.core.viewability.WindowViewability
 import jp.s64.android.viewablearea.*
 
 class ObserverActivity : AppCompatActivity() {

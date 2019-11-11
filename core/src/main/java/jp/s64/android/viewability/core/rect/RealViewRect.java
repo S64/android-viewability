@@ -1,6 +1,8 @@
-package jp.s64.android.viewablearea;
+package jp.s64.android.viewability.core.rect;
 
 import android.support.annotation.NonNull;
+
+import jp.s64.android.viewability.core.viewability.ContentViewability;
 
 public class RealViewRect {
 
@@ -13,7 +15,7 @@ public class RealViewRect {
     @NonNull
     private final ViewRect viewInContent;
 
-    RealViewRect(
+    public RealViewRect(
             @NonNull ContentViewability contentViewability,
             @NonNull ViewRect viewInDisplay,
             @NonNull ViewRect viewInContent

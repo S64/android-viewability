@@ -4,6 +4,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import jp.s64.android.viewability.core.dimension.DisplayDimension;
+import jp.s64.android.viewability.core.gaps.ContentGaps;
+import jp.s64.android.viewability.core.rect.ContentRect;
+import jp.s64.android.viewability.core.rect.RealViewRect;
+import jp.s64.android.viewability.core.rect.ViewRect;
+import jp.s64.android.viewability.core.viewability.ContentViewability;
+import jp.s64.android.viewability.core.viewability.Viewability;
+
 public class ViewabilityCalculator {
 
     @NonNull

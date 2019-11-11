@@ -1,6 +1,9 @@
-package jp.s64.android.viewablearea;
+package jp.s64.android.viewability.core.viewability;
 
 import android.support.annotation.NonNull;
+
+import jp.s64.android.viewability.core.dimension.DisplayDimension;
+import jp.s64.android.viewability.core.rect.WindowRect;
 
 public class WindowViewability {
 

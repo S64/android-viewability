@@ -1,17 +1,17 @@
-package jp.s64.android.viewablearea;
+package jp.s64.android.viewability.core.rect;
 
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 
-public class WindowRect extends BaseRect {
+public class ContentRect extends BaseRect {
 
-    public WindowRect(
+    public ContentRect(
             @NonNull Rect rect
     ) {
         super(rect);
     }
 
-    public WindowRect(
+    public ContentRect(
             int leftInPixels,
             int topInPixels,
             int rightInPixels,
@@ -21,7 +21,8 @@ public class WindowRect extends BaseRect {
                 leftInPixels,
                 topInPixels,
                 rightInPixels,
-                bottomInPixels);
+                bottomInPixels
+        );
     }
 
 }

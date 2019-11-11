@@ -1,4 +1,4 @@
-package jp.s64.android.viewablearea;
+package jp.s64.android.viewability;
 
 import android.app.Activity;
 import android.content.Context;

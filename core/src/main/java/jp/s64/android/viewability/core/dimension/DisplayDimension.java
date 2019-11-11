@@ -1,6 +1,4 @@
-package jp.s64.android.viewablearea;
-
-import android.support.annotation.NonNull;
+package jp.s64.android.viewability.core.dimension;
 
 public class DisplayDimension extends BaseDimension {
 

@@ -10,6 +10,14 @@ import android.view.View;
 
 import java.io.Closeable;
 
+import jp.s64.android.viewability.core.dimension.DisplayDimension;
+import jp.s64.android.viewability.core.gaps.ContentGaps;
+import jp.s64.android.viewability.core.gaps.SystemGaps;
+import jp.s64.android.viewability.core.rect.ContentRect;
+import jp.s64.android.viewability.core.rect.RealViewRect;
+import jp.s64.android.viewability.core.rect.ViewRect;
+import jp.s64.android.viewability.core.rect.WindowRect;
+
 public class ViewabilityObserver implements Closeable {
 
     @NonNull

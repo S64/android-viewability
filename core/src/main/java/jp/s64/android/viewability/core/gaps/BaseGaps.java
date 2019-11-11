@@ -1,7 +1,9 @@
-package jp.s64.android.viewablearea;
+package jp.s64.android.viewability.core.gaps;
 
 import android.support.annotation.NonNull;
 import android.support.v4.util.ObjectsCompat;
+
+import jp.s64.android.viewability.core.IGaps;
 
 abstract class BaseGaps implements IGaps {
 

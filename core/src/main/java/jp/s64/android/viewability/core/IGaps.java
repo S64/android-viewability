@@ -1,6 +1,6 @@
-package jp.s64.android.viewablearea;
+package jp.s64.android.viewability.core;
 
-public interface IRect extends IDimension {
+public interface IGaps {
 
     int getLeftInPixels();
 

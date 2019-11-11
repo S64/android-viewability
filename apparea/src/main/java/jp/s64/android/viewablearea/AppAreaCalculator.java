@@ -11,6 +11,13 @@ import android.view.Display;
 import android.view.View;
 import android.view.Window;
 
+import jp.s64.android.viewability.ViewUtils;
+import jp.s64.android.viewability.core.dimension.DisplayDimension;
+import jp.s64.android.viewability.core.gaps.ContentGaps;
+import jp.s64.android.viewability.core.gaps.SystemGaps;
+import jp.s64.android.viewability.core.rect.ContentRect;
+import jp.s64.android.viewability.core.rect.WindowRect;
+
 public class AppAreaCalculator {
 
     @NonNull

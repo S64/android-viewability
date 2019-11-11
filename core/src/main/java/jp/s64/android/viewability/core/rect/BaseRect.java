@@ -1,7 +1,9 @@
-package jp.s64.android.viewablearea;
+package jp.s64.android.viewability.core.rect;
 
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
+
+import jp.s64.android.viewability.core.IRect;
 
 abstract class BaseRect implements IRect {
 
