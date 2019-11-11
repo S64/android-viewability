@@ -26,6 +26,9 @@ public class ViewabilityCalculator {
     };
 
     @NonNull
+    private final View view;
+
+    @NonNull
     final AppViewabilityCalculator appCalc;
 
     @NonNull
@@ -51,6 +54,7 @@ public class ViewabilityCalculator {
             @NonNull IScanDepth scanDepth
     ) {
         this(
+                view,
                 new AppViewabilityCalculator(
                         appAreaCalculator
                 ),
@@ -60,10 +64,12 @@ public class ViewabilityCalculator {
     }
 
     public ViewabilityCalculator(
+            @NonNull View view,
             @NonNull AppViewabilityCalculator appViewabilityCalculator,
             @NonNull ViewAreaCalculator viewAreaCalculator,
             @NonNull IScanDepth scanDepth
     ) {
+        this.view = view;
         this.appCalc = appViewabilityCalculator;
         this.viewCalc = viewAreaCalculator;
         this.scanDepth = scanDepth;
